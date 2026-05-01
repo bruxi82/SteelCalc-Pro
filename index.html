@@ -3,99 +3,364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SteelCalc Pro | Universal Configurator</title>
-    <!-- CSS დაკავშირება -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <title>SteelCalc Pro | Konfigurator Wyceny</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- სისტემური შეტყობინება (ვადა) -->
-<div id="critical-error">
+<div id="critical-error" aria-live="assertive" role="alert">
     <div class="err-box">
-        <h1>[ SYSTEM MESSAGE ]</h1>
-        <p>WERSJA DEMO WYGASŁA LUB WYMAGANA AKTUALIZACJA.</p>
-        <p>PROSZĘ SKONTAKTOWAĆ SIĘ Z ADMINISTRATOREM SYSTEMU.</p>
-        <p style="color: #444; margin-top: 20px;">Ref: Demo-License-2026</p>
+        <div class="err-icon">⚠</div>
+        <h1>WERSJA DEMO WYGASŁA</h1>
+        <p>Proszę skontaktować się z administratorem systemu.</p>
+        <small>Ref: Demo-License-2026</small>
     </div>
 </div>
 
-<div class="wrapper" id="main-app-content">
-    <div class="main-grid">
-        <!-- სექცია 1: ძირითადი პარამეტრები -->
-        <div class="section">
-            <h3>Konfiguracja Podstawowa</h3>
-            <div class="row" style="background: #f8f9fa; border: 1px solid #dee2e6; margin-bottom: 15px;">
-                <span>Wymiary (Szer / Głęb / Wys cm):</span>
-                <div>
-                    <input type="number" id="w_szer" value="6" class="dim-box calc-trigger"> x 
-                    <input type="number" id="w_gleb" value="8" class="dim-box calc-trigger"> x 
-                    <input type="number" id="w_wys_cm" value="220" class="dim-box calc-trigger">
+<div class="app" id="main-app-content">
+
+    <!-- HEADER -->
+    <header class="app-header">
+        <div class="header-brand">
+            <div class="brand-icon">⬡</div>
+            <div>
+                <h1 class="brand-title">SteelCalc <span>Pro</span></h1>
+                <p class="brand-sub">Konfigurator Wyceny Konstrukcji</p>
+            </div>
+        </div>
+        <div class="header-total">
+            <span class="header-total-label">Cena Brutto</span>
+            <span class="header-total-value" id="header-price">0 PLN</span>
+        </div>
+    </header>
+
+    <main class="app-body">
+
+        <!-- PANEL LEWY: Konfiguracja -->
+        <div class="config-panel">
+
+            <!-- SEKCJA: Wymiary -->
+            <section class="card" id="section-wymiary">
+                <h2 class="card-title">
+                    <span class="card-num">01</span>
+                    Wymiary Konstrukcji
+                </h2>
+                <div class="dim-grid">
+                    <div class="dim-field">
+                        <label for="w_szer">Szerokość</label>
+                        <div class="dim-input-wrap">
+                            <input type="number" id="w_szer" value="6" min="1" max="30" class="calc-trigger">
+                            <span class="dim-unit">m</span>
+                        </div>
+                    </div>
+                    <div class="dim-sep">×</div>
+                    <div class="dim-field">
+                        <label for="w_gleb">Głębokość</label>
+                        <div class="dim-input-wrap">
+                            <input type="number" id="w_gleb" value="8" min="1" max="50" class="calc-trigger">
+                            <span class="dim-unit">m</span>
+                        </div>
+                    </div>
+                    <div class="dim-sep">×</div>
+                    <div class="dim-field">
+                        <label for="w_wys_cm">Wysokość</label>
+                        <div class="dim-input-wrap">
+                            <input type="number" id="w_wys_cm" value="220" min="100" max="500" class="calc-trigger">
+                            <span class="dim-unit">cm</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="dim-summary" id="dim-summary">Powierzchnia: <strong>48 m²</strong></div>
+            </section>
 
-            <!-- ყველა "checked" ამოღებულია, რომ მომხმარებელმა თავად აირჩიოს -->
-            <div class="row"><label><input type="checkbox" id="cb_p1" class="y-check calc-trigger" data-ref="p1" data-label="Płyta Obornicka 10cm"> Płyta Obornicka 10cm</label><input type="number" id="price_p1" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_p2" class="y-check calc-trigger" data-ref="p2" data-label="Płyta Obornicka 5cm"> Płyta Obornicka 5cm</label><input type="number" id="price_p2" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_p3" class="y-check calc-trigger" data-ref="p3" data-label="Konstrukcja Ocynkowana"> Konstrukcja Ocynkowana</label><input type="number" id="price_p3" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_p4" class="y-check calc-trigger" data-ref="p4" data-label="Konstrukcja RAL"> Konstrukcja RAL</label><input type="number" id="price_p4" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_p5" class="y-check calc-trigger" data-ref="p5" data-label="Konstrukcja RAL MAT"> Konstrukcja RAL MAT</label><input type="number" id="price_p5" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_p6" class="y-check calc-trigger" data-ref="p6" data-label="Konstrukcja Drewnopodobna"> Drewnopodobna</label><input type="number" id="price_p6" class="price-input calc-trigger"></div>
-            
-            <div class="row"><label><input type="checkbox" id="cb_nad" class="y-check calc-trigger" data-ref="nad" data-label="Nadwymiar wysokości" disabled> Nadwymiar wysokości</label><input type="number" id="price_nad" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_okuc" class="y-check calc-trigger" data-ref="okuc" data-label="Okucia blacharskie"> Okucia blacharskie</label><input type="number" id="price_okuc" value="700" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_dwu" class="y-check calc-trigger" data-ref="dwu" data-label="Dach dwuspadowy"> Dach dwuspadowy</label><input type="number" id="price_dwu" value="550" class="price-input calc-trigger"></div>
-            
-            <div class="row"><span>Ściana działowa (mb: <input type="number" id="sciana_m" value="0" class="calc-trigger" style="width:45px">)</span><input type="number" id="sciana_res" value="0" class="price-input" readonly></div>
-            <div class="row"><label><input type="checkbox" id="t8_check" class="calc-trigger" data-label="Przetłoczenia poziome T8"> Przetłoczenia T8</label><input type="number" id="t8_val" value="0" class="price-input calc-trigger"></div>
+            <!-- SEKCJA: Konstrukcja -->
+            <section class="card">
+                <h2 class="card-title">
+                    <span class="card-num">02</span>
+                    Typ Konstrukcji
+                </h2>
+                <div class="option-group" role="group" aria-label="Typ płyty">
+                    <div class="option-row">
+                        <label class="option-label" for="cb_p1">
+                            <input type="checkbox" id="cb_p1" class="y-check calc-trigger" data-ref="p1" data-label="Płyta Obornicka 10cm">
+                            <span class="option-check"></span>
+                            <span class="option-text">Płyta Obornicka <strong>10cm</strong></span>
+                        </label>
+                        <input type="number" id="price_p1" class="price-input calc-trigger" aria-label="Cena płyty 10cm">
+                    </div>
+                    <div class="option-row">
+                        <label class="option-label" for="cb_p2">
+                            <input type="checkbox" id="cb_p2" class="y-check calc-trigger" data-ref="p2" data-label="Płyta Obornicka 5cm">
+                            <span class="option-check"></span>
+                            <span class="option-text">Płyta Obornicka <strong>5cm</strong></span>
+                        </label>
+                        <input type="number" id="price_p2" class="price-input calc-trigger" aria-label="Cena płyty 5cm">
+                    </div>
+                </div>
+                <div class="option-group" role="group" aria-label="Wykończenie konstrukcji">
+                    <div class="option-row">
+                        <label class="option-label" for="cb_p3">
+                            <input type="checkbox" id="cb_p3" class="y-check calc-trigger" data-ref="p3" data-label="Konstrukcja Ocynkowana">
+                            <span class="option-check"></span>
+                            <span class="option-text">Konstrukcja <strong>Ocynkowana</strong></span>
+                        </label>
+                        <input type="number" id="price_p3" class="price-input calc-trigger">
+                    </div>
+                    <div class="option-row">
+                        <label class="option-label" for="cb_p4">
+                            <input type="checkbox" id="cb_p4" class="y-check calc-trigger" data-ref="p4" data-label="Konstrukcja RAL">
+                            <span class="option-check"></span>
+                            <span class="option-text">Konstrukcja <strong>RAL</strong></span>
+                        </label>
+                        <input type="number" id="price_p4" class="price-input calc-trigger">
+                    </div>
+                    <div class="option-row">
+                        <label class="option-label" for="cb_p5">
+                            <input type="checkbox" id="cb_p5" class="y-check calc-trigger" data-ref="p5" data-label="Konstrukcja RAL MAT">
+                            <span class="option-check"></span>
+                            <span class="option-text">Konstrukcja <strong>RAL MAT</strong></span>
+                        </label>
+                        <input type="number" id="price_p5" class="price-input calc-trigger">
+                    </div>
+                    <div class="option-row">
+                        <label class="option-label" for="cb_p6">
+                            <input type="checkbox" id="cb_p6" class="y-check calc-trigger" data-ref="p6" data-label="Konstrukcja Drewnopodobna">
+                            <span class="option-check"></span>
+                            <span class="option-text">Wykończenie <strong>Drewnopodobne</strong></span>
+                        </label>
+                        <input type="number" id="price_p6" class="price-input calc-trigger">
+                    </div>
+                </div>
+                <div class="option-group">
+                    <div class="option-row">
+                        <label class="option-label" for="cb_nad">
+                            <input type="checkbox" id="cb_nad" class="y-check calc-trigger" data-ref="nad" data-label="Nadwymiar wysokości" disabled>
+                            <span class="option-check"></span>
+                            <span class="option-text">Nadwymiar wysokości <span class="option-badge">Auto</span></span>
+                        </label>
+                        <input type="number" id="price_nad" class="price-input calc-trigger">
+                    </div>
+                    <div class="option-row">
+                        <label class="option-label" for="cb_okuc">
+                            <input type="checkbox" id="cb_okuc" class="y-check calc-trigger" data-ref="okuc" data-label="Okucia blacharskie">
+                            <span class="option-check"></span>
+                            <span class="option-text">Okucia blacharskie</span>
+                        </label>
+                        <input type="number" id="price_okuc" value="700" class="price-input calc-trigger">
+                    </div>
+                    <div class="option-row">
+                        <label class="option-label" for="cb_dwu">
+                            <input type="checkbox" id="cb_dwu" class="y-check calc-trigger" data-ref="dwu" data-label="Dach dwuspadowy">
+                            <span class="option-check"></span>
+                            <span class="option-text">Dach dwuspadowy</span>
+                        </label>
+                        <input type="number" id="price_dwu" value="550" class="price-input calc-trigger">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEKCJA: Ściany i T8 -->
+            <section class="card">
+                <h2 class="card-title">
+                    <span class="card-num">03</span>
+                    Ściany i Detale
+                </h2>
+                <div class="option-row composite">
+                    <label class="option-text-plain">Ściana działowa</label>
+                    <div class="composite-inputs">
+                        <div class="composite-field">
+                            <input type="number" id="sciana_m" value="0" min="0" class="calc-trigger" aria-label="Metry bieżące ściany">
+                            <span class="dim-unit">mb</span>
+                        </div>
+                        <input type="number" id="sciana_res" value="0" class="price-input price-result" readonly aria-label="Cena ściany">
+                    </div>
+                </div>
+                <div class="option-row">
+                    <label class="option-label" for="t8_check">
+                        <input type="checkbox" id="t8_check" class="calc-trigger" data-label="Przetłoczenia poziome T8">
+                        <span class="option-check"></span>
+                        <span class="option-text">Przetłoczenia T8</span>
+                    </label>
+                    <input type="number" id="t8_val" value="0" class="price-input calc-trigger">
+                </div>
+            </section>
         </div>
 
-        <!-- სექცია 2: დამატებითი ელემენტები -->
-        <div class="section">
-            <h3>Opcje Dodatkowe</h3>
-            <div class="row"><label><input type="checkbox" id="filc_active" class="calc-trigger" data-label="Filc antykondensacyjny"> Filc (dach)</label><input type="number" id="price_filc" class="price-input calc-trigger"></div>
-            
-            <div class="row"><span>Brama uchylna (szt: <input type="number" id="qty_b_uch" class="calc-trigger" value="0" style="width:35px">)</span><input type="number" id="res_b_uch" value="0" class="price-input" readonly></div>
-            <div class="row"><span>Okno 80x60 (szt: <input type="number" id="qty_okno" class="calc-trigger" value="0" style="width:35px">)</span><input type="number" id="res_okno" value="0" class="price-input" readonly></div>
-            
-            <div class="row"><label><input type="checkbox" id="cb_furtka" class="w-check calc-trigger" data-ref="furtka" data-label="Dodatkowa furtka"> Dodatkowa furtka</label><input type="number" id="price_furtka" value="450" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_tr" class="w-check calc-trigger" data-ref="tr" data-label="Transport"> Transport</label><input type="number" id="price_tr" value="100" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_ryn" class="w-check calc-trigger" data-ref="ryn" data-label="System rynnowy"> System rynnowy</label><input type="number" id="price_ryn" value="1200" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_kot" class="w-check calc-trigger" data-ref="kot" data-label="Kotwienie do podłoża"> Kotwienie do podłoża</label><input type="number" id="price_kot" value="250" class="price-input calc-trigger"></div>
-            
-            <div class="row"><span>Napęd do bramy (szt: <input type="number" id="qty_came" class="calc-trigger" value="0" style="width:35px">)</span><input type="number" id="res_came" value="0" class="price-input" readonly></div>
-            
-            <div class="row"><label><input type="checkbox" id="cb_reg" class="w-check calc-trigger" data-ref="reg" data-label="Dostawa Regionalna"> Dostawa regionalna</label><input type="number" id="price_reg" value="100" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_seg" class="w-check calc-trigger" data-ref="seg" data-label="Brama Segmentowa"> Brama segmentowa</label><input type="number" id="price_seg" value="6000" class="price-input calc-trigger"></div>
-            <div class="row"><label><input type="checkbox" id="cb_blach" class="w-check calc-trigger" data-ref="blach" data-label="Blachodachówka"> Blachodachówka</label><input type="number" id="price_blach" value="4000" class="price-input calc-trigger"></div>
-            
-            <div class="row"><label><input type="checkbox" id="check_2sk" class="calc-trigger" data-label="Dach dwuspadowy (2SK)"> Dach 2SK</label><input type="number" id="val_2sk" value="0" class="price-input calc-trigger"></div>
-            
-            <div class="row" style="margin-top:10px; background: #f1f2f6; border: 1px dashed #2980b9;">
-                <strong>KOREKTA CENY (PLN):</strong> <input type="number" id="val_doplata" class="price-input calc-trigger" value="0">
-            </div>
-        </div>
-    </div>
+        <!-- PANEL PRAWY: Opcje i Podsumowanie -->
+        <div class="extras-panel">
 
-    <!-- შეჯამების პანელი -->
-    <div class="bottom-panel">
-        <div class="summary-card white-card"><span class="label">Rabat (<input type="number" id="rabat_pct" value="0" style="width:35px" class="calc-trigger">%)</span><div id="disp_discount" style="color:#e74c3c; font-size:22px;">-0</div></div>
-        <div class="summary-card red-card"><span class="label">CENA NETTO</span><div id="disp_florian">0</div></div>
-        <div class="summary-card green-card"><span class="label">CENA FINALNA (BRUTTO)</span><div id="disp_profil">0</div></div>
-    </div>
-    <button class="btn-pdf" onclick="window.print()">📥 Generuj Ofertę PDF</button>
+            <!-- SEKCJA: Opcje Dodatkowe -->
+            <section class="card">
+                <h2 class="card-title">
+                    <span class="card-num">04</span>
+                    Opcje Dodatkowe
+                </h2>
+                <div class="option-row">
+                    <label class="option-label" for="filc_active">
+                        <input type="checkbox" id="filc_active" class="calc-trigger" data-label="Filc antykondensacyjny">
+                        <span class="option-check"></span>
+                        <span class="option-text">Filc antykondensacyjny</span>
+                    </label>
+                    <input type="number" id="price_filc" class="price-input calc-trigger">
+                </div>
+                <div class="option-row composite">
+                    <label class="option-text-plain">Brama uchylna</label>
+                    <div class="composite-inputs">
+                        <div class="composite-field">
+                            <input type="number" id="qty_b_uch" value="0" min="0" class="calc-trigger" aria-label="Ilość bram">
+                            <span class="dim-unit">szt</span>
+                        </div>
+                        <input type="number" id="res_b_uch" value="0" class="price-input price-result" readonly>
+                    </div>
+                </div>
+                <div class="option-row composite">
+                    <label class="option-text-plain">Okno 80×60</label>
+                    <div class="composite-inputs">
+                        <div class="composite-field">
+                            <input type="number" id="qty_okno" value="0" min="0" class="calc-trigger" aria-label="Ilość okien">
+                            <span class="dim-unit">szt</span>
+                        </div>
+                        <input type="number" id="res_okno" value="0" class="price-input price-result" readonly>
+                    </div>
+                </div>
+                <div class="option-row composite">
+                    <label class="option-text-plain">Napęd do bramy</label>
+                    <div class="composite-inputs">
+                        <div class="composite-field">
+                            <input type="number" id="qty_came" value="0" min="0" class="calc-trigger" aria-label="Ilość napędów">
+                            <span class="dim-unit">szt</span>
+                        </div>
+                        <input type="number" id="res_came" value="0" class="price-input price-result" readonly>
+                    </div>
+                </div>
+                <div class="option-divider"></div>
+                <div class="option-row">
+                    <label class="option-label" for="cb_furtka">
+                        <input type="checkbox" id="cb_furtka" class="w-check calc-trigger" data-ref="furtka" data-label="Dodatkowa furtka">
+                        <span class="option-check"></span>
+                        <span class="option-text">Dodatkowa furtka</span>
+                    </label>
+                    <input type="number" id="price_furtka" value="450" class="price-input calc-trigger">
+                </div>
+                <div class="option-row">
+                    <label class="option-label" for="cb_tr">
+                        <input type="checkbox" id="cb_tr" class="w-check calc-trigger" data-ref="tr" data-label="Transport">
+                        <span class="option-check"></span>
+                        <span class="option-text">Transport</span>
+                    </label>
+                    <input type="number" id="price_tr" value="100" class="price-input calc-trigger">
+                </div>
+                <div class="option-row">
+                    <label class="option-label" for="cb_reg">
+                        <input type="checkbox" id="cb_reg" class="w-check calc-trigger" data-ref="reg" data-label="Dostawa Regionalna">
+                        <span class="option-check"></span>
+                        <span class="option-text">Dostawa Regionalna</span>
+                    </label>
+                    <input type="number" id="price_reg" value="100" class="price-input calc-trigger">
+                </div>
+                <div class="option-row">
+                    <label class="option-label" for="cb_ryn">
+                        <input type="checkbox" id="cb_ryn" class="w-check calc-trigger" data-ref="ryn" data-label="System rynnowy">
+                        <span class="option-check"></span>
+                        <span class="option-text">System rynnowy</span>
+                    </label>
+                    <input type="number" id="price_ryn" value="1200" class="price-input calc-trigger">
+                </div>
+                <div class="option-row">
+                    <label class="option-label" for="cb_kot">
+                        <input type="checkbox" id="cb_kot" class="w-check calc-trigger" data-ref="kot" data-label="Kotwienie do podłoża">
+                            <span class="option-check"></span>
+                        <span class="option-text">Kotwienie do podłoża</span>
+                    </label>
+                    <input type="number" id="price_kot" value="250" class="price-input calc-trigger">
+                </div>
+                <div class="option-row">
+                    <label class="option-label" for="cb_seg">
+                        <input type="checkbox" id="cb_seg" class="w-check calc-trigger" data-ref="seg" data-label="Brama Segmentowa">
+                        <span class="option-check"></span>
+                        <span class="option-text">Brama Segmentowa</span>
+                    </label>
+                    <input type="number" id="price_seg" value="6000" class="price-input calc-trigger">
+                </div>
+                <div class="option-row">
+                    <label class="option-label" for="cb_blach">
+                        <input type="checkbox" id="cb_blach" class="w-check calc-trigger" data-ref="blach" data-label="Blachodachówka">
+                        <span class="option-check"></span>
+                        <span class="option-text">Blachodachówka</span>
+                    </label>
+                    <input type="number" id="price_blach" value="4000" class="price-input calc-trigger">
+                </div>
+                <div class="option-row">
+                    <label class="option-label" for="check_2sk">
+                        <input type="checkbox" id="check_2sk" class="calc-trigger" data-label="Dach dwuspadowy (2SK)">
+                        <span class="option-check"></span>
+                        <span class="option-text">Dach 2SK</span>
+                    </label>
+                    <input type="number" id="val_2sk" value="0" class="price-input calc-trigger">
+                </div>
+            </section>
+
+            <!-- SEKCJA: Podsumowanie -->
+            <section class="card summary-card-section">
+                <h2 class="card-title">
+                    <span class="card-num">05</span>
+                    Podsumowanie
+                </h2>
+
+                <div class="summary-row">
+                    <span>Wartość bazowa</span>
+                    <span id="disp_base">0 PLN</span>
+                </div>
+                <div class="summary-row discount-row">
+                    <label for="rabat_pct">
+                        Rabat
+                        <input type="number" id="rabat_pct" value="0" min="0" max="100" class="calc-trigger rabat-input" aria-label="Procent rabatu">
+                        <span>%</span>
+                    </label>
+                    <span id="disp_discount" class="discount-val">−0 PLN</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row netto-row">
+                    <span>Cena Netto</span>
+                    <span id="disp_florian">0 PLN</span>
+                </div>
+
+                <div class="korekta-row">
+                    <label for="val_doplata">Korekta ceny (PLN)</label>
+                    <input type="number" id="val_doplata" value="0" class="price-input calc-trigger korekta-input">
+                </div>
+
+                <div class="brutto-box">
+                    <span class="brutto-label">CENA BRUTTO</span>
+                    <span class="brutto-val" id="disp_profil">0 PLN</span>
+                </div>
+
+                <button class="btn-pdf" onclick="window.print()" aria-label="Generuj ofertę PDF">
+                    <span class="btn-icon">↓</span>
+                    Generuj Ofertę PDF
+                </button>
+            </section>
+
+        </div>
+    </main>
 </div>
 
-<!-- PDF შაბლონი (ამოღებულია RockStal) -->
+<!-- PDF Template -->
 <div id="offer-pdf">
-    <h1 style="text-align:center; color:#2980b9;">OFERTA HANDLOWA</h1>
+    <div class="pdf-header">
+        <h1>OFERTA HANDLOWA</h1>
+        <p class="pdf-date" id="pdf-date"></p>
+    </div>
     <p>Poniżej przedstawiamy szczegółową specyfikację zamówienia:</p>
     <ul class="pdf-list" id="pdf_specs"></ul>
-    <div style="background:#f1f1f1; padding:30px; text-align:center; margin-top:20px; border:2px solid #2980b9; border-radius:10px;">
-        <h2 style="margin:0; font-size: 28px;">WARTOŚĆ ZAMÓWIENIA: <span id="pdf_total"></span> PLN</h2>
-        <p style="margin: 5px 0 0 0;">Cena uwzględnia wybrane parametry oraz aktualne stawki rynkowe.</p>
+    <div class="pdf-total-box">
+        <h2>WARTOŚĆ ZAMÓWIENIA: <span id="pdf_total"></span> PLN</h2>
+        <p>Cena uwzględnia wybrane parametry oraz aktualne stawki rynkowe.</p>
     </div>
 </div>
 
-<script src="assets/js/script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
