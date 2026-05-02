@@ -1,0 +1,451 @@
+/* =============================================
+   SteelCalc Pro — Admin Panel Styles
+   ============================================= */
+
+/* --- Admin Body --- */
+.admin-body {
+    background: var(--c-bg);
+}
+
+/* --- Login Screen --- */
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-card);
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+
+.login-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+}
+
+.brand-icon-login {
+    font-size: 32px;
+    color: var(--c-accent);
+    animation: spin-slow 12s linear infinite;
+}
+
+.login-error {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    border-radius: var(--r-input);
+    padding: 10px 14px;
+    color: var(--c-red);
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.login-field {
+    margin-bottom: 16px;
+}
+
+.login-field label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--c-text-muted);
+    margin-bottom: 7px;
+}
+
+.login-field input {
+    width: 100%;
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-input);
+    padding: 11px 14px;
+    color: var(--c-text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.login-field input:focus {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px var(--c-accent-dim);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 13px;
+    margin-top: 8px;
+    background: var(--c-accent);
+    color: #000;
+    border: none;
+    border-radius: var(--r-btn);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.18s ease;
+}
+
+.btn-login:hover {
+    background: #ffc62b;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(240,165,0,0.3);
+}
+
+.btn-login:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.back-to-calc {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--c-text-muted);
+    text-decoration: none;
+    transition: color 0.18s ease;
+}
+
+.back-to-calc:hover {
+    color: var(--c-accent);
+}
+
+/* --- Admin Header --- */
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: var(--c-surface);
+    border-bottom: 1px solid var(--c-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.admin-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-user-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--c-text-muted);
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-border);
+    border-radius: 20px;
+    padding: 5px 12px;
+}
+
+.btn-goto-calc {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--c-accent-dim);
+    color: var(--c-accent);
+    border: 1px solid rgba(240,165,0,0.3);
+    border-radius: var(--r-btn);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.18s ease;
+}
+
+.btn-goto-calc:hover {
+    background: var(--c-accent);
+    color: #000;
+}
+
+.btn-logout {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: rgba(239,68,68,0.1);
+    color: var(--c-red);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: var(--r-btn);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.18s ease;
+}
+
+.btn-logout:hover {
+    background: rgba(239,68,68,0.2);
+}
+
+/* --- Admin Panel Body --- */
+.admin-body-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 20px 80px;
+}
+
+/* --- Save Status --- */
+.save-status {
+    background: var(--c-green-dim);
+    border: 1px solid rgba(34,197,94,0.4);
+    border-radius: var(--r-card);
+    padding: 12px 20px;
+    color: var(--c-green);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    transition: opacity 0.4s ease;
+}
+
+.save-status--error {
+    background: rgba(239,68,68,0.1);
+    border-color: rgba(239,68,68,0.4);
+    color: var(--c-red);
+}
+
+.save-status--hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- Admin Grid --- */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* --- Admin Card --- */
+.admin-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-card);
+    padding: 20px;
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.18s ease;
+}
+
+.admin-card:hover {
+    border-color: rgba(255,255,255,0.12);
+}
+
+.admin-card-title {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--c-text-dim);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--c-border);
+    flex-wrap: wrap;
+}
+
+.price-unit-hint {
+    font-size: 10px;
+    color: var(--c-text-muted);
+    letter-spacing: 0.5px;
+    margin-left: auto;
+    font-weight: 400;
+}
+
+/* --- Price List --- */
+.admin-price-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.admin-price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 8px;
+    border-radius: var(--r-input);
+    transition: background 0.15s ease;
+}
+
+.admin-price-row:hover {
+    background: var(--c-surface-2);
+}
+
+.admin-price-row label {
+    font-size: 13px;
+    color: var(--c-text-dim);
+    flex: 1;
+    min-width: 0;
+    cursor: default;
+}
+
+.admin-input-wrap {
+    display: flex;
+    align-items: center;
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-input);
+    overflow: hidden;
+    flex-shrink: 0;
+    width: 120px;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.admin-input-wrap:focus-within {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px var(--c-accent-dim);
+}
+
+.admin-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--c-text);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    padding: 7px 8px;
+    text-align: right;
+    -moz-appearance: textfield;
+}
+
+.admin-input::-webkit-inner-spin-button,
+.admin-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.admin-unit {
+    font-size: 10px;
+    color: var(--c-text-muted);
+    padding: 0 7px 0 2px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* --- Save Bar --- */
+.admin-save-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-card);
+    flex-wrap: wrap;
+}
+
+.last-updated {
+    font-size: 12px;
+    color: var(--c-text-muted);
+}
+
+.btn-save {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 28px;
+    background: var(--c-accent);
+    color: #000;
+    border: none;
+    border-radius: var(--r-btn);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.18s ease;
+}
+
+.btn-save:hover {
+    background: #ffc62b;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(240,165,0,0.35);
+}
+
+.btn-save:active {
+    transform: translateY(0);
+}
+
+.btn-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* --- Admin link in calc header --- */
+.admin-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-input);
+    color: var(--c-text-muted);
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.18s ease;
+}
+
+.admin-link:hover {
+    border-color: var(--c-accent);
+    color: var(--c-accent);
+    background: var(--c-accent-dim);
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .login-card {
+        padding: 28px 20px;
+    }
+
+    .admin-header {
+        padding: 12px 16px;
+    }
+
+    .admin-body-wrap {
+        padding: 16px 12px 60px;
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-save-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-save {
+        justify-content: center;
+    }
+}
