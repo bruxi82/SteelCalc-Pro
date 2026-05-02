@@ -70,6 +70,7 @@ body {
     max-width: 1300px;
     margin: 0 auto;
     padding: 20px 16px 60px;
+    padding-top: calc(72px + 20px);
 }
 
 /* --- 5. Header --- */
@@ -77,11 +78,21 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 24px;
+    padding: 14px 24px;
     background: var(--c-surface);
-    border: 1px solid var(--c-border);
-    border-radius: var(--r-card);
-    margin-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid var(--c-border);
+    border-radius: 0;
+    margin-bottom: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(23, 27, 38, 0.92);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
     gap: 16px;
 }
 .header-brand {
@@ -171,8 +182,9 @@ body {
 /* --- 7. Cards --- */
 .card {
     background: var(--c-surface);
-    border: 1px solid var(--c-border);
-    border-radius: var(--r-card);
+    border: none;
+    border-bottom: 1px solid var(--c-border);
+    border-radius: 0;
     padding: 20px;
     margin-bottom: 16px;
     box-shadow: var(--shadow-card);
@@ -234,7 +246,8 @@ body {
     display: flex;
     align-items: center;
     background: var(--c-surface-2);
-    border: 1px solid var(--c-border);
+    border: none;
+    border-bottom: 1px solid var(--c-border);
     border-radius: var(--r-input);
     overflow: hidden;
     transition: border-color var(--transition);
@@ -271,7 +284,8 @@ body {
 
 /* --- 9. Option Rows --- */
 .option-group {
-    border: 1px solid var(--c-border);
+    border: none;
+    border-bottom: 1px solid var(--c-border);
     border-radius: var(--r-input);
     overflow: hidden;
     margin-bottom: 10px;
@@ -376,7 +390,8 @@ body {
     display: flex;
     align-items: center;
     background: var(--c-surface-2);
-    border: 1px solid var(--c-border);
+    border: none;
+    border-bottom: 1px solid var(--c-border);
     border-radius: var(--r-input);
     overflow: hidden;
     width: 72px;
@@ -400,7 +415,8 @@ body {
     width: 100px;
     text-align: right;
     background: var(--c-surface-2);
-    border: 1px solid var(--c-border);
+    border: none;
+    border-bottom: 1px solid var(--c-border);
     border-radius: var(--r-input);
     padding: 7px 10px;
     color: var(--c-text-dim);
@@ -490,7 +506,7 @@ body {
 .brutto-box {
     background: var(--c-green-dim);
     border: 1px solid rgba(34,197,94,0.3);
-    border-radius: var(--r-card);
+    border-radius: 0;
     padding: 20px;
     text-align: center;
     margin-top: 16px;
@@ -579,7 +595,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* --- 16. Responsive: Mobile --- */
 @media (max-width: 600px) {
-    .app { padding: 10px 10px 40px; }
+    .app { padding: 10px 10px 40px; padding-top: calc(110px + 10px); }
 
     .app-header {
         flex-direction: column;
@@ -618,7 +634,8 @@ input[type="number"]::-webkit-outer-spin-button {
     width: 36px;
     height: 36px;
     background: var(--c-surface-2);
-    border: 1px solid var(--c-border);
+    border: none;
+    border-bottom: 1px solid var(--c-border);
     border-radius: var(--r-input);
     color: var(--c-text-muted);
     text-decoration: none;
