@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SteelCalc Pro | Panel Administratora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+
+    <!-- ════ LOGIN SCREEN ════ -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-logo">
+                <span class="brand-icon-login">⬡</span>
+                <div>
+                    <h1 class="brand-title">SteelCalc <span>Pro</span></h1>
+                    <p class="brand-sub">Panel Administratora</p>
+                </div>
+            </div>
+
+            <div id="login-error" class="login-error" style="display:none;"></div>
+
+            <div class="login-field">
+                <label for="admin-email">E-mail</label>
+                <input type="email" id="admin-email" placeholder="admin@firma.pl" autocomplete="username">
+            </div>
+            <div class="login-field">
+                <label for="admin-pass">Hasło</label>
+                <input type="password" id="admin-pass" placeholder="••••••••" autocomplete="current-password">
+            </div>
+            <button class="btn-login" id="btn-login">
+                <span id="login-btn-text">Zaloguj się</span>
+                <span id="login-spinner" style="display:none;">⏳</span>
+            </button>
+            <a href="index.html" class="back-to-calc">← Wróć do kalkulatora</a>
+        </div>
+    </div>
+
+    <!-- ════ ADMIN PANEL ════ -->
+    <div id="admin-panel" class="admin-panel" style="display:none;">
+
+        <header class="admin-header">
+            <div class="header-brand">
+                <div class="brand-icon">⬡</div>
+                <div>
+                    <h1 class="brand-title">SteelCalc <span>Pro</span></h1>
+                    <p class="brand-sub">Panel Administratora</p>
+                </div>
+            </div>
+            <div class="admin-header-right">
+                <span class="admin-user-badge">
+                    <span>👤</span>
+                    <span id="admin-user-email">admin</span>
+                </span>
+                <a href="index.html" class="btn-goto-calc">
+                    <span>📊</span> Kalkulator
+                </a>
+                <button class="btn-logout" id="btn-logout">
+                    <span>⏏</span> Wyloguj
+                </button>
+            </div>
+        </header>
+
+        <div class="admin-body-wrap">
+
+            <!-- Status bar -->
+            <div id="save-status" class="save-status save-status--hidden">
+                <span id="save-status-text">Zapisano pomyślnie!</span>
+            </div>
+
+            <!-- PRICES GRID -->
+            <div class="admin-grid">
+
+                <!-- CARD: Płyty -->
+                <div class="admin-card">
+                    <div class="admin-card-title">
+                        <span class="card-num">01</span>
+                        Płyty Konstrukcyjne
+                        <span class="price-unit-hint">PLN / m²</span>
+                    </div>
+                    <div class="admin-price-list">
+                        <div class="admin-price-row">
+                            <label>Płyta Obornicka 10cm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_p1_rate" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Płyta Obornicka 5cm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_p2_rate" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Konstrukcja Ocynkowana</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_konstr_ocynk" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Konstrukcja RAL</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_konstr_ral" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Konstrukcja RAL MAT</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_konstr_ral_mat" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Wykończenie Drewnopodobne</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_wykon_drewno" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD: Dach -->
+                <div class="admin-card">
+                    <div class="admin-card-title">
+                        <span class="card-num">02</span>
+                        Dach i Pokrycie
+                    </div>
+                    <div class="admin-price-list">
+                        <div class="admin-price-row">
+                            <label>Dach Dwuspadowy</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_dach_dwuspad" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Pokrycie T8</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_t8_rate" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Folia / Filc</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_filc_rate" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Blachodachówka</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_blachodach" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Dach 2SK</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_dach_2sk" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>System Rynnowy</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_rynny" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD: Akcesoria -->
+                <div class="admin-card">
+                    <div class="admin-card-title">
+                        <span class="card-num">03</span>
+                        Bramy i Akcesoria
+                    </div>
+                    <div class="admin-price-list">
+                        <div class="admin-price-row">
+                            <label>Okucia Blacharskie</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_okucia" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Brama Uchylna (szt.)</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_bramaUchylna" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Brama Segmentowa</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_brama_segm" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Okno PCV (szt.)</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_okno" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Napęd CAME (szt.)</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_napedCame" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Dodatkowa Furtka</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_furtka" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD: Logistyka -->
+                <div class="admin-card">
+                    <div class="admin-card-title">
+                        <span class="card-num">04</span>
+                        Logistyka i Montaż
+                    </div>
+                    <div class="admin-price-list">
+                        <div class="admin-price-row">
+                            <label>Nadwymiar wysokości</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_nadwymiar" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Ściana Działowa</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_scionaPerMeter" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/mb</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Transport</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_transport" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Dostawa Regionalna</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_dostawa" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Kotwienie do podłoża</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_kotwienie" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /admin-grid -->
+
+            <!-- SAVE BUTTON -->
+            <div class="admin-save-bar">
+                <div class="last-updated" id="last-updated">Ładowanie danych...</div>
+                <button class="btn-save" id="btn-save-prices">
+                    <span class="btn-icon">💾</span>
+                    Zapisz wszystkie ceny
+                </button>
+            </div>
+
+        </div><!-- /admin-body-wrap -->
+    </div><!-- /admin-panel -->
+
+<script type="module" src="admin.js"></script>
+</body>
+</html>
