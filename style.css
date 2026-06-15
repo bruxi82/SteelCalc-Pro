@@ -69,7 +69,7 @@ body {
 .app {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 20px 16px 60px;
+    padding: 96px 16px 60px;
 }
 
 /* --- 5. Header --- */
@@ -80,11 +80,13 @@ body {
     padding: 20px 24px;
     background: var(--c-surface);
     border: 1px solid var(--c-border);
-    border-radius: var(--r-card);
-    margin-bottom: 20px;
+    border-bottom-left-radius: var(--r-card);
+    border-bottom-right-radius: var(--r-card);
     gap: 16px;
-    position: sticky;
-    top: 12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     box-shadow: 0 4px 20px rgba(0,0,0,0.10);
 }
@@ -583,7 +585,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* --- 16. Responsive: Mobile --- */
 @media (max-width: 600px) {
-    .app { padding: 10px 10px 40px; }
+    .app { padding: 80px 10px 40px; }
 
     .app-header {
         flex-direction: column;
