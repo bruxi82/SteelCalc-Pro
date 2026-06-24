@@ -7,16 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#d4920a">
-    <link rel="apple-touch-icon" href="icon-192.png">
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/SteelCalc-Pro/sw.js');
-        });
-      }
-    </script>
 </head>
 <body>
 
@@ -29,7 +19,7 @@
     </div>
 </div>
 
-<div class="app" id="main-app-content" style="display:none;">
+<div class="app" id="main-app-content">
 
     <!-- HEADER -->
     <header class="app-header">
@@ -220,11 +210,31 @@
                         <input type="number" id="val_2sk" class="price-input" readonly>
                     </div>
                     <div class="option-row">
-                        <label class="option-label" for="cb_ryn">
-                            <input type="checkbox" id="cb_ryn" class="w-check calc-trigger" data-label="System rynnowy">
-                            <span class="option-check"></span>
-                            <span class="option-text">System rynnowy</span>
-                        </label>
+                        <div class="rynny-block">
+                            <span class="option-text-plain">System rynnowy</span>
+                            <div class="rynny-options">
+                                <label class="rynny-label">
+                                    <input type="radio" name="rynny" value="" class="calc-trigger" checked>
+                                    <span>Brak</span>
+                                </label>
+                                <label class="rynny-label">
+                                    <input type="radio" name="rynny" value="dwu" class="calc-trigger">
+                                    <span>Dwuspadowy</span>
+                                </label>
+                                <label class="rynny-label">
+                                    <input type="radio" name="rynny" value="tyl" class="calc-trigger">
+                                    <span>Tył</span>
+                                </label>
+                                <label class="rynny-label">
+                                    <input type="radio" name="rynny" value="lewo" class="calc-trigger">
+                                    <span>Lewo</span>
+                                </label>
+                                <label class="rynny-label">
+                                    <input type="radio" name="rynny" value="prawo" class="calc-trigger">
+                                    <span>Prawo</span>
+                                </label>
+                            </div>
+                        </div>
                         <input type="number" id="price_ryn" class="price-input" readonly>
                     </div>
                 </div>
@@ -310,48 +320,13 @@
                         </label>
                         <input type="number" id="price_kot" class="price-input" readonly>
                     </div>
-                    <!-- Transport: combo selectors -->
-                    <div class="transport-selector-block">
-                        <div class="transport-selector-label">Transport</div>
-                        <div class="transport-combos">
-                            <div class="transport-combo-field">
-                                <label class="transport-combo-label" for="tr_type">Typ produktu</label>
-                                <select id="tr_type" class="calc-trigger transport-select">
-                                    <option value="">— wybierz —</option>
-                                    <option value="blachane">Blachane</option>
-                                    <option value="x4">Garaże z Płyty X4</option>
-                                </select>
-                            </div>
-                            <div class="transport-combo-field">
-                                <label class="transport-combo-label" for="tr_woj">Województwo</label>
-                                <select id="tr_woj" class="calc-trigger transport-select">
-                                    <option value="">— wybierz —</option>
-                                    <option value="Dolnośląskie">Dolnośląskie</option>
-                                    <option value="Kuj-Pomorskie">Kuj-Pomorskie</option>
-                                    <option value="Lubelskie">Lubelskie</option>
-                                    <option value="Lubuskie">Lubuskie</option>
-                                    <option value="Mazowieckie">Mazowieckie</option>
-                                    <option value="Małopolska">Małopolska</option>
-                                    <option value="Opolskie">Opolskie</option>
-                                    <option value="Podkarpackie">Podkarpackie</option>
-                                    <option value="Podlaskie">Podlaskie</option>
-                                    <option value="Pomorskie">Pomorskie</option>
-                                    <option value="Warm-Mazurskie">Warm-Mazurskie</option>
-                                    <option value="Wielkopolskie">Wielkopolskie</option>
-                                    <option value="Zach-Pomorskie">Zach-Pomorskie</option>
-                                    <option value="Łódzkie">Łódzkie</option>
-                                    <option value="Śląskie">Śląskie</option>
-                                    <option value="Świętokrzyskie">Świętokrzyskie</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="transport-result-row">
-                            <span class="transport-result-label" id="tr_selected_label">Wybierz typ i województwo</span>
-                            <div class="composite-inputs" style="flex-shrink:0;">
-                                <input type="number" id="price_tr" class="price-input price-result" readonly>
-                                <span class="dim-unit" style="font-size:11px; color:var(--c-text-muted); white-space:nowrap;">PLN</span>
-                            </div>
-                        </div>
+                    <div class="option-row">
+                        <label class="option-label" for="cb_tr">
+                            <input type="checkbox" id="cb_tr" class="w-check calc-trigger" data-label="Transport">
+                            <span class="option-check"></span>
+                            <span class="option-text">Transport</span>
+                        </label>
+                        <input type="number" id="price_tr" class="price-input" readonly>
                     </div>
                     <div class="option-row">
                         <label class="option-label" for="cb_reg">

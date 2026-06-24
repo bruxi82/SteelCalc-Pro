@@ -156,7 +156,7 @@ function fillPriceDisplays(m2) {
         'price_furtka':PRICES.furtka,
         // price_tr is now driven by transport combo boxes
         'price_reg':   PRICES.dostawa,
-        'price_ryn':   PRICES.rynny,
+        'price_ryn':   0,
         'price_kot':   PRICES.kotwienie,
         'price_seg':   PRICES.brama_segm,
         'price_blach': PRICES.blachodach,
@@ -239,6 +239,28 @@ function runCalc() {
             pInput.classList.remove('active-price');
         }
     });
+
+    // Rynny (radio buttons)
+    const rynnyVal = document.querySelector('input[name="rynny"]:checked')?.value || '';
+    const rynPriceEl = document.getElementById('price_ryn');
+    let rynTotal = 0;
+    if (rynnyVal === 'dwu')  rynTotal = gl * 2 * PRICES.rynny;
+    if (rynnyVal === 'tyl')  rynTotal = sz * PRICES.rynny;
+    if (rynnyVal === 'lewo') rynTotal = gl * PRICES.rynny;
+    if (rynnyVal === 'prawo')rynTotal = gl * PRICES.rynny;
+    if (rynPriceEl) {
+        rynPriceEl.value = Math.round(rynTotal);
+        if (rynTotal > 0) {
+            rynPriceEl.classList.add('active-price');
+        } else {
+            rynPriceEl.classList.remove('active-price');
+        }
+    }
+    if (rynTotal > 0) {
+        const rynLabels = { dwu: 'Rynny dwuspadowy', tyl: 'Rynny tył', lewo: 'Rynny lewo', prawo: 'Rynny prawo' };
+        wSum += rynTotal;
+        pdfItems.push(`${rynLabels[rynnyVal]}: ${Math.round(rynTotal)} PLN`);
+    }
 
     // Transport combo boxes
     const trType = document.getElementById('tr_type')?.value || '';
@@ -330,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Attach listeners
         document.querySelectorAll('.calc-trigger').forEach(el => {
-            const event = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
+            const event = (el.type === 'checkbox' || el.type === 'radio' || el.tagName === 'SELECT') ? 'change' : 'input';
             el.addEventListener(event, runCalc);
         });
 
