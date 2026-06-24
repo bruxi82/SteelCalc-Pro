@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
@@ -169,23 +170,11 @@
                     Typ Dachu
                 </h2>
                 <div class="option-group">
-                    <!-- Typ Dachu select -->
+                    <!-- Typ Dachu select + auto price -->
                     <div class="option-row">
-                        <span class="option-text-plain">Typ Dachu</span>
-                        <select id="typ_dachu" class="calc-trigger transport-select" style="width:160px;">
-                            <option value="">— wybierz —</option>
-                            <option value="dwu">Dwuspadowy</option>
-                            <option value="tyl">Tył</option>
-                            <option value="lewo">Lewo</option>
-                            <option value="prawo">Prawo</option>
+                        <select id="typ_dachu" class="calc-trigger price-select" style="flex:1; min-width:0;">
+                            <option value="">— Typ Dachu —</option>
                         </select>
-                    </div>
-                    <div class="option-row">
-                        <label class="option-label" for="cb_dwu">
-                            <input type="checkbox" id="cb_dwu" class="y-check calc-trigger" data-label="Dach dwuspadowy">
-                            <span class="option-check"></span>
-                            <span class="option-text">Dach <strong>dwuspadowy</strong></span>
-                        </label>
                         <input type="number" id="price_dwu" class="price-input" readonly>
                     </div>
                     <div class="option-row">

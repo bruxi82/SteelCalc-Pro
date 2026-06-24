@@ -672,7 +672,85 @@ input[type="number"]::-webkit-outer-spin-button {
     .pdf-total-box h2 { font-size: 24px; color: #1a5276; }
     .pdf-total-box p  { color: #555; font-size: 13px; margin-top: 6px; }
 }
-/* --- 20. Rynny Radio Buttons --- */
+/* --- 19. Transport / Typ Dachu Selects --- */
+.transport-select,
+.price-select {
+    height: 38px;
+    padding: 0 28px 0 10px;
+    background: var(--c-surface-2);
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--r-input);
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--c-text-dim);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+}
+.transport-select:focus,
+.price-select:focus {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px var(--c-accent-dim);
+    color: var(--c-text);
+}
+.price-select {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+}
+
+/* Transport selector block */
+.transport-selector-block {
+    padding: 10px;
+    background: var(--c-surface-2);
+    border-radius: var(--r-input);
+    border: 1px solid var(--c-border);
+    margin: 4px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.transport-selector-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--c-accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.transport-combos {
+    display: flex;
+    gap: 8px;
+}
+.transport-combo-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+.transport-combo-label {
+    font-size: 10px;
+    color: var(--c-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+.transport-combo-field .transport-select { width: 100%; }
+.transport-result-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.transport-result-label {
+    font-size: 12px;
+    color: var(--c-text-muted);
+    flex: 1;
+}
+
 .rynny-block {
     display: flex;
     flex-direction: column;

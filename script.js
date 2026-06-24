@@ -185,7 +185,7 @@ function fillPriceDisplays(m2) {
         'price_p6':    PRICES.wykon_drewno,
         'price_nad':   m2 * PRICES.nadwymiar,
         'price_okuc':  PRICES.okucia,
-        'price_dwu':   PRICES.dach_dwuspad,
+        // price_dwu driven by typ_dachu select in runCalc
         'price_filc':  m2 * PRICES.filc_rate,
         't8_val':      PRICES.t8_rate,
         'price_furtka':PRICES.furtka,
@@ -276,8 +276,22 @@ function runCalc() {
         }
     });
 
-    // Typ Dachu + System rynnowy
+    // Typ Dachu select → price_dwu auto + ySum
     const typDachu   = document.getElementById('typ_dachu')?.value || '';
+    const dwuPriceEl = document.getElementById('price_dwu');
+    const activeOpt  = typDachuOptions.find(o => o.value === typDachu);
+
+    if (typDachu && dwuPriceEl) {
+        dwuPriceEl.value = Math.round(PRICES.dach_dwuspad);
+        dwuPriceEl.classList.add('active-price');
+        ySum += PRICES.dach_dwuspad;
+        pdfItems.push(`Typ Dachu: ${activeOpt ? activeOpt.label : typDachu}`);
+    } else if (dwuPriceEl) {
+        dwuPriceEl.value = Math.round(PRICES.dach_dwuspad);
+        dwuPriceEl.classList.remove('active-price');
+    }
+
+    // System rynnowy
     const rynCb      = document.getElementById('cb_ryn');
     const rynPriceEl = document.getElementById('price_ryn');
     const rynBadge   = document.getElementById('ryn_meters_badge');
@@ -289,7 +303,6 @@ function runCalc() {
     else if (typDachu === 'lewo' || typDachu === 'prawo') rynMeters = gl;
 
     // Allow override via typDachuOptions rynnyPerMb
-    const activeOpt = typDachuOptions.find(o => o.value === typDachu);
     const rynnyRate = (activeOpt && activeOpt.rynnyPerMb > 0)
         ? activeOpt.rynnyPerMb
         : PRICES.rynny;
