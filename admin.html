@@ -262,12 +262,15 @@
                                 <span class="admin-unit">PLN/mb</span>
                             </div>
                         </div>
-                        <div class="admin-price-row">
-                            <label>Transport</label>
-                            <div class="admin-input-wrap">
-                                <input type="number" id="ap_transport" class="admin-input" min="0">
-                                <span class="admin-unit">PLN</span>
+                        <!-- Transport per województwo -->
+                        <div class="admin-price-row" style="flex-direction:column; align-items:stretch; gap:8px; padding: 8px 0;">
+                            <label style="font-size:12px; font-weight:700; color:var(--c-accent); text-transform:uppercase; letter-spacing:1px;">Transport wg województwa</label>
+                            <div style="display:grid; grid-template-columns: 1fr auto auto; gap:4px; align-items:center; padding: 4px 8px; font-size:10px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:1px;">
+                                <span>Województwo</span>
+                                <span style="text-align:right; width:100px;">Blachane</span>
+                                <span style="text-align:right; width:100px;">Garaże X4</span>
                             </div>
+                            <div id="transport-prices-list" class="admin-dynamic-list" style="gap:3px; margin-top:0;"></div>
                         </div>
                         <div class="admin-price-row">
                             <label>Dostawa Regionalna</label>

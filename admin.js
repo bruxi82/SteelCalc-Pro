@@ -9,7 +9,12 @@ import {
     doc,
     getDoc,
     setDoc,
-    serverTimestamp
+    serverTimestamp,
+    collection,
+    addDoc,
+    getDocs,
+    updateDoc,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import {
     getAuth,
@@ -50,7 +55,7 @@ const FIELD_MAP = {
     ap_okno:            'okno',
     ap_napedCame:       'napedCame',
     ap_furtka:          'furtka',
-    ap_transport:       'transport',
+    // ap_transport handled separately via transportPrices table
     ap_dostawa:         'dostawa',
     ap_rynny:           'rynny',
     ap_kotwienie:       'kotwienie',
@@ -69,6 +74,88 @@ const CARD_SECTIONS = {
     'card-akcesoria':{ section: 'akcesoria',   calcType: 'w', label: 'Bramy i Akcesoria'   },
     'card-logistyka':{ section: 'logistyka',   calcType: 'w', label: 'Logistyka i Montaż'  },
 };
+
+// ─── Transport prices per województwo ────────────────────────────────────────
+const WOJEWODZTWA = [
+    'Dolnośląskie',
+    'Kuj-Pomorskie',
+    'Lubelskie',
+    'Lubuskie',
+    'Mazowieckie',
+    'Małopolska',
+    'Opolskie',
+    'Podkarpackie',
+    'Podlaskie',
+    'Pomorskie',
+    'Warm-Mazurskie',
+    'Wielkopolskie',
+    'Zach-Pomorskie',
+    'Łódzkie',
+    'Śląskie',
+    'Świętokrzyskie',
+];
+
+// Default transport prices from the Excel sheet
+const DEFAULT_TRANSPORT = {
+    'Dolnośląskie':    { blachane: 400,  x4: 1600 },
+    'Kuj-Pomorskie':   { blachane: 510,  x4: 2040 },
+    'Lubelskie':       { blachane: 460,  x4: 1840 },
+    'Lubuskie':        { blachane: 510,  x4: 2040 },
+    'Mazowieckie':     { blachane: 510,  x4: 2040 },
+    'Małopolska':      { blachane: 270,  x4: 1080 },
+    'Opolskie':        { blachane: 350,  x4: 1400 },
+    'Podkarpackie':    { blachane: 350,  x4: 1400 },
+    'Podlaskie':       { blachane: 570,  x4: 2280 },
+    'Pomorskie':       { blachane: 570,  x4: 2280 },
+    'Warm-Mazurskie':  { blachane: 570,  x4: 2280 },
+    'Wielkopolskie':   { blachane: 570,  x4: 2280 },
+    'Zach-Pomorskie':  { blachane: 630,  x4: 2520 },
+    'Łódzkie':         { blachane: 460,  x4: 1840 },
+    'Śląskie':         { blachane: 350,  x4: 1400 },
+    'Świętokrzyskie':  { blachane: 350,  x4: 1400 },
+};
+
+// Live state of transport prices (edited by admin)
+let transportPrices = JSON.parse(JSON.stringify(DEFAULT_TRANSPORT));
+
+function renderTransportPrices() {
+    const list = document.getElementById('transport-prices-list');
+    if (!list) return;
+    list.innerHTML = '';
+    WOJEWODZTWA.forEach(woj => {
+        const prices = transportPrices[woj] || { blachane: 0, x4: 0 };
+        const row = document.createElement('div');
+        row.style.cssText = 'display:grid; grid-template-columns: 1fr auto auto; gap:4px; align-items:center; padding: 5px 8px; border-radius: var(--r-input); transition: background 0.15s;';
+        row.innerHTML = `
+            <span style="font-size:12px; color:var(--c-text-dim);">${escHtml(woj)}</span>
+            <div class="admin-input-wrap" style="width:100px;">
+                <input type="number" class="admin-input tr-blachane" data-woj="${escHtml(woj)}" value="${prices.blachane}" min="0">
+                <span class="admin-unit">PLN</span>
+            </div>
+            <div class="admin-input-wrap" style="width:100px;">
+                <input type="number" class="admin-input tr-x4" data-woj="${escHtml(woj)}" value="${prices.x4}" min="0">
+                <span class="admin-unit">PLN</span>
+            </div>
+        `;
+        row.addEventListener('mouseenter', () => row.style.background = 'var(--c-surface-2)');
+        row.addEventListener('mouseleave', () => row.style.background = '');
+        list.appendChild(row);
+    });
+}
+
+// Listen for changes in transport price inputs
+document.addEventListener('input', (e) => {
+    if (e.target.matches('.tr-blachane')) {
+        const woj = e.target.dataset.woj;
+        if (!transportPrices[woj]) transportPrices[woj] = { blachane: 0, x4: 0 };
+        transportPrices[woj].blachane = parseFloat(e.target.value) || 0;
+    }
+    if (e.target.matches('.tr-x4')) {
+        const woj = e.target.dataset.woj;
+        if (!transportPrices[woj]) transportPrices[woj] = { blachane: 0, x4: 0 };
+        transportPrices[woj].x4 = parseFloat(e.target.value) || 0;
+    }
+});
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 const $ = (id) => document.getElementById(id);
@@ -209,6 +296,14 @@ async function loadPrices() {
             }
         });
 
+        // Load transport prices
+        if (data.transportPrices) {
+            transportPrices = data.transportPrices;
+        } else {
+            transportPrices = JSON.parse(JSON.stringify(DEFAULT_TRANSPORT));
+        }
+        renderTransportPrices();
+
         // Load dynamic items
         if (data.dynamicItems) {
             Object.keys(dynamicItems).forEach(cardId => {
@@ -250,6 +345,9 @@ async function savePrices() {
             }
         });
 
+        // Transport prices per województwo
+        data.transportPrices = transportPrices;
+
         // Dynamic items — save clean copy
         data.dynamicItems = {};
         Object.keys(dynamicItems).forEach(cardId => {
@@ -285,6 +383,7 @@ function showAdmin(user) {
     $('login-screen').style.display = 'none';
     $('admin-panel').style.display  = 'block';
     $('admin-user-email').textContent = user.email;
+    renderTransportPrices(); // render defaults immediately, loadPrices will overwrite with Firebase data
     loadPrices();
 }
 

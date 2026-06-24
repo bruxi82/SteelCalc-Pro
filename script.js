@@ -47,6 +47,7 @@ const CARD_CALC_TYPE = {
 };
 
 let dynamicItems = {};
+let transportPrices = {};
 
 // ─── 2. SYNC FROM FIREBASE ───────────────────────────────────────────────────
 async function syncPricesWithFirebase() {
@@ -59,6 +60,9 @@ async function syncPricesWithFirebase() {
             });
             if (data.dynamicItems) {
                 dynamicItems = data.dynamicItems;
+            }
+            if (data.transportPrices) {
+                transportPrices = data.transportPrices;
             }
         }
     } catch (e) {
@@ -124,7 +128,7 @@ function injectDynamicItems() {
     document.querySelectorAll('.calc-trigger').forEach(el => {
         el.removeEventListener('change', runCalc);
         el.removeEventListener('input', runCalc);
-        const event = el.type === 'checkbox' ? 'change' : 'input';
+        const event = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
         el.addEventListener(event, runCalc);
     });
 }
@@ -148,7 +152,7 @@ function fillPriceDisplays(m2) {
         'price_filc':  m2 * PRICES.filc_rate,
         't8_val':      PRICES.t8_rate,
         'price_furtka':PRICES.furtka,
-        'price_tr':    PRICES.transport,
+        // price_tr is now driven by transport combo boxes
         'price_reg':   PRICES.dostawa,
         'price_ryn':   PRICES.rynny,
         'price_kot':   PRICES.kotwienie,
@@ -234,6 +238,37 @@ function runCalc() {
         }
     });
 
+    // Transport combo boxes
+    const trType = document.getElementById('tr_type')?.value || '';
+    const trWoj  = document.getElementById('tr_woj')?.value  || '';
+    const trLabel = document.getElementById('tr_selected_label');
+    const trPriceEl = document.getElementById('price_tr');
+
+    if (trType && trWoj && transportPrices[trWoj]) {
+        const trVal = transportPrices[trWoj][trType] || 0;
+        if (trPriceEl) {
+            trPriceEl.value = trVal;
+            trPriceEl.classList.remove('price-result');
+            trPriceEl.classList.add('active-price');
+        }
+        if (trLabel) trLabel.textContent = `${trWoj} · ${trType === 'blachane' ? 'Blachane' : 'Garaże X4'}`;
+        if (trVal > 0) {
+            wSum += trVal;
+            pdfItems.push(`Transport ${trWoj}: ${trVal} PLN`);
+        }
+    } else {
+        if (trPriceEl) {
+            trPriceEl.value = '';
+            trPriceEl.classList.add('price-result');
+            trPriceEl.classList.remove('active-price');
+        }
+        if (trLabel) {
+            if (!trType && !trWoj) trLabel.textContent = 'Wybierz typ i województwo';
+            else if (!trType)      trLabel.textContent = 'Wybierz typ produktu';
+            else                   trLabel.textContent = 'Wybierz województwo';
+        }
+    }
+
     // T8, 2SK
     if (document.getElementById('t8_check')?.checked)  ySum += getNum('t8_val');
     if (document.getElementById('check_2sk')?.checked) wSum += getNum('val_2sk');
@@ -283,7 +318,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Attach listeners
     document.querySelectorAll('.calc-trigger').forEach(el => {
-        const event = el.type === 'checkbox' ? 'change' : 'input';
+        const event = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
         el.addEventListener(event, runCalc);
     });
 
