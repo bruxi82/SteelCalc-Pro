@@ -156,6 +156,7 @@ function fillPriceDisplays(m2) {
         'price_furtka':PRICES.furtka,
         // price_tr is now driven by transport combo boxes
         'price_reg':   PRICES.dostawa,
+        // price_ryn is driven by typ_dachu select + cb_ryn checkbox
         'price_ryn':   0,
         'price_kot':   PRICES.kotwienie,
         'price_seg':   PRICES.brama_segm,
@@ -240,26 +241,28 @@ function runCalc() {
         }
     });
 
-    // Rynny (radio buttons)
-    const rynnyVal = document.querySelector('input[name="rynny"]:checked')?.value || '';
+    // Typ Dachu + System rynnowy
+    const typDachu   = document.getElementById('typ_dachu')?.value || '';
+    const rynCb      = document.getElementById('cb_ryn');
     const rynPriceEl = document.getElementById('price_ryn');
-    let rynTotal = 0;
-    if (rynnyVal === 'dwu')  rynTotal = gl * 2 * PRICES.rynny;
-    if (rynnyVal === 'tyl')  rynTotal = sz * PRICES.rynny;
-    if (rynnyVal === 'lewo') rynTotal = gl * PRICES.rynny;
-    if (rynnyVal === 'prawo')rynTotal = gl * PRICES.rynny;
-    if (rynPriceEl) {
-        rynPriceEl.value = Math.round(rynTotal);
-        if (rynTotal > 0) {
-            rynPriceEl.classList.add('active-price');
-        } else {
-            rynPriceEl.classList.remove('active-price');
-        }
-    }
-    if (rynTotal > 0) {
-        const rynLabels = { dwu: 'Rynny dwuspadowy', tyl: 'Rynny tył', lewo: 'Rynny lewo', prawo: 'Rynny prawo' };
+    const rynBadge   = document.getElementById('ryn_meters_badge');
+
+    let rynMeters = 0;
+    if (typDachu === 'dwu')                              rynMeters = gl * 2;
+    else if (typDachu === 'tyl')                         rynMeters = sz;
+    else if (typDachu === 'lewo' || typDachu === 'prawo') rynMeters = gl;
+
+    const rynTotal = rynMeters * PRICES.rynny;
+    if (rynBadge) rynBadge.textContent = rynMeters > 0 ? `${rynMeters} mb` : '';
+    if (rynPriceEl) rynPriceEl.value = Math.round(rynTotal);
+
+    if (rynCb?.checked && rynTotal > 0) {
+        if (rynPriceEl) rynPriceEl.classList.add('active-price');
         wSum += rynTotal;
-        pdfItems.push(`${rynLabels[rynnyVal]}: ${Math.round(rynTotal)} PLN`);
+        const rynLabels = { dwu: 'Rynny dwuspadowy', tyl: 'Rynny tył', lewo: 'Rynny lewo', prawo: 'Rynny prawo' };
+        pdfItems.push(`${rynLabels[typDachu]}: ${Math.round(rynTotal)} PLN`);
+    } else {
+        if (rynPriceEl) rynPriceEl.classList.remove('active-price');
     }
 
     // Transport combo boxes
@@ -352,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Attach listeners
         document.querySelectorAll('.calc-trigger').forEach(el => {
-            const event = (el.type === 'checkbox' || el.type === 'radio' || el.tagName === 'SELECT') ? 'change' : 'input';
+            const event = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
             el.addEventListener(event, runCalc);
         });
 
