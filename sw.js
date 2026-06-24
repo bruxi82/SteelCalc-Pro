@@ -1,15 +1,14 @@
-// Rock-Stal PWA Service Worker
 const CACHE_NAME = 'rockStal-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/admin.html',
-  '/style.css',
-  '/admin.css',
-  '/script.js',
-  '/admin.js',
-  '/icon-192.png',
-  '/icon-512.png',
+  '/SteelCalc-Pro/',
+  '/SteelCalc-Pro/index.html',
+  '/SteelCalc-Pro/admin.html',
+  '/SteelCalc-Pro/style.css',
+  '/SteelCalc-Pro/admin.css',
+  '/SteelCalc-Pro/script.js',
+  '/SteelCalc-Pro/admin.js',
+  '/SteelCalc-Pro/icon-192.png',
+  '/SteelCalc-Pro/icon-512.png',
 ];
 
 self.addEventListener('install', e => {
@@ -28,10 +27,9 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
-// Network first — Firebase always fresh, fallback to cache
 self.addEventListener('fetch', e => {
-  if (e.request.url.includes('firebase') || e.request.url.includes('googleapis')) {
-    return; // Firebase requests — always network
+  if (e.request.url.includes('firebase') || e.request.url.includes('googleapis') || e.request.url.includes('gstatic')) {
+    return;
   }
   e.respondWith(
     fetch(e.request)
