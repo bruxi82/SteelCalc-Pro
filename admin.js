@@ -157,6 +157,95 @@ document.addEventListener('input', (e) => {
     }
 });
 
+// ─── Typ Dachu Options ───────────────────────────────────────────────────────
+// Each entry: { id, label, value, rynnyPerMb }
+const DEFAULT_TYP_DACHU = [
+    { id: 'td_dwu',   label: 'Dwuspadowy', value: 'dwu',   rynnyPerMb: 0 },
+    { id: 'td_tyl',   label: 'Tył',        value: 'tyl',   rynnyPerMb: 0 },
+    { id: 'td_lewo',  label: 'Lewo',       value: 'lewo',  rynnyPerMb: 0 },
+    { id: 'td_prawo', label: 'Prawo',      value: 'prawo', rynnyPerMb: 0 },
+];
+
+let typDachuOptions = JSON.parse(JSON.stringify(DEFAULT_TYP_DACHU));
+
+function renderTypDachuOptions() {
+    const list = document.getElementById('typdachu-list');
+    if (!list) return;
+    list.innerHTML = '';
+
+    typDachuOptions.forEach((opt) => {
+        const row = document.createElement('div');
+        row.style.cssText = 'display:grid; grid-template-columns: 1fr 140px 120px auto; gap:6px; align-items:center; padding: 5px 8px; border-radius: var(--r-input); transition: background 0.15s;';
+        row.dataset.id = opt.id;
+        row.innerHTML = `
+            <input
+                type="text"
+                class="admin-input-text td-label"
+                value="${escHtml(opt.label)}"
+                placeholder="Nazwa opcji..."
+                data-id="${opt.id}"
+                style="font-size:13px;"
+            >
+            <input
+                type="text"
+                class="admin-input td-value"
+                value="${escHtml(opt.value)}"
+                placeholder="np. dwu"
+                data-id="${opt.id}"
+                style="font-size:12px; font-family:monospace; text-align:center;"
+            >
+            <div class="admin-input-wrap">
+                <input
+                    type="number"
+                    class="admin-input td-rynny"
+                    value="${opt.rynnyPerMb}"
+                    min="0"
+                    data-id="${opt.id}"
+                >
+                <span class="admin-unit">PLN/mb</span>
+            </div>
+            <button class="btn-remove-item td-remove" data-id="${opt.id}" title="Usuń opcję">✕</button>
+        `;
+        row.addEventListener('mouseenter', () => row.style.background = 'var(--c-surface-2)');
+        row.addEventListener('mouseleave', () => row.style.background = '');
+        list.appendChild(row);
+    });
+}
+
+// Event listeners for typDachuOptions edits
+document.addEventListener('input', (e) => {
+    if (e.target.matches('.td-label')) {
+        const opt = typDachuOptions.find(o => o.id === e.target.dataset.id);
+        if (opt) opt.label = e.target.value;
+    }
+    if (e.target.matches('.td-value')) {
+        const opt = typDachuOptions.find(o => o.id === e.target.dataset.id);
+        if (opt) opt.value = e.target.value.trim();
+    }
+    if (e.target.matches('.td-rynny')) {
+        const opt = typDachuOptions.find(o => o.id === e.target.dataset.id);
+        if (opt) opt.rynnyPerMb = parseFloat(e.target.value) || 0;
+    }
+});
+
+document.addEventListener('click', (e) => {
+    if (e.target.matches('.td-remove')) {
+        typDachuOptions = typDachuOptions.filter(o => o.id !== e.target.dataset.id);
+        renderTypDachuOptions();
+    }
+    if (e.target.id === 'btn-add-typdachu') {
+        typDachuOptions.push({
+            id:          'td_' + Date.now(),
+            label:       '',
+            value:       '',
+            rynnyPerMb:  0,
+        });
+        renderTypDachuOptions();
+        const list = document.getElementById('typdachu-list');
+        list?.querySelector('.td-label:last-of-type')?.focus();
+    }
+});
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 const $ = (id) => document.getElementById(id);
 
@@ -304,6 +393,14 @@ async function loadPrices() {
         }
         renderTransportPrices();
 
+        // Load typDachuOptions
+        if (data.typDachuOptions && Array.isArray(data.typDachuOptions)) {
+            typDachuOptions = data.typDachuOptions;
+        } else {
+            typDachuOptions = JSON.parse(JSON.stringify(DEFAULT_TYP_DACHU));
+        }
+        renderTypDachuOptions();
+
         // Load dynamic items
         if (data.dynamicItems) {
             Object.keys(dynamicItems).forEach(cardId => {
@@ -345,6 +442,16 @@ async function savePrices() {
             }
         });
 
+        // Typ Dachu options
+        data.typDachuOptions = typDachuOptions
+            .filter(o => o.label.trim() && o.value.trim())
+            .map(o => ({
+                id:          o.id,
+                label:       o.label.trim(),
+                value:       o.value.trim(),
+                rynnyPerMb:  o.rynnyPerMb || 0,
+            }));
+
         // Transport prices per województwo
         data.transportPrices = transportPrices;
 
@@ -384,6 +491,7 @@ function showAdmin(user) {
     $('admin-panel').style.display  = 'block';
     $('admin-user-email').textContent = user.email;
     renderTransportPrices(); // render defaults immediately, loadPrices will overwrite with Firebase data
+    renderTypDachuOptions();
     loadPrices();
 }
 

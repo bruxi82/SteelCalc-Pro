@@ -186,6 +186,27 @@
                     <button class="btn-add-item" data-card="card-dach">+ Dodaj pozycję</button>
                 </div>
 
+                <!-- CARD: Typ Dachu -->
+                <div class="admin-card" id="card-typdachu">
+                    <div class="admin-card-title">
+                        <span class="card-num">02b</span>
+                        Typ Dachu
+                        <span class="price-unit-hint">Opcje select + Rynny</span>
+                    </div>
+
+                    <!-- Header columns -->
+                    <div style="display:grid; grid-template-columns: 1fr 140px 120px auto; gap:6px; align-items:center; padding: 4px 8px 8px; font-size:10px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:1px; border-bottom: 1px solid var(--c-border);">
+                        <span>Nazwa (widoczna w kalkulatorze)</span>
+                        <span style="text-align:center;">Wartość (value)</span>
+                        <span style="text-align:right;">Rynny PLN/mb</span>
+                        <span></span>
+                    </div>
+
+                    <div id="typdachu-list" class="admin-dynamic-list" style="gap:4px; margin-top:4px;"></div>
+
+                    <button class="btn-add-item" id="btn-add-typdachu" style="margin-top:8px;">+ Dodaj opcję dachu</button>
+                </div>
+
                 <!-- CARD: Akcesoria -->
                 <div class="admin-card" id="card-akcesoria">
                     <div class="admin-card-title">

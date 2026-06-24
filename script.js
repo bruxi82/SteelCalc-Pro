@@ -50,6 +50,7 @@ const CARD_CALC_TYPE = {
 
 let dynamicItems = {};
 let transportPrices = {};
+let typDachuOptions = []; // loaded from Firebase
 
 // ─── 2. SYNC FROM FIREBASE ───────────────────────────────────────────────────
 async function syncPricesWithFirebase() {
@@ -65,6 +66,9 @@ async function syncPricesWithFirebase() {
             }
             if (data.transportPrices) {
                 transportPrices = data.transportPrices;
+            }
+            if (data.typDachuOptions && Array.isArray(data.typDachuOptions)) {
+                typDachuOptions = data.typDachuOptions;
             }
         }
     } catch (e) {
@@ -137,6 +141,37 @@ function injectDynamicItems() {
 
 function escHtml(str) {
     return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── 4b. INJECT TYP DACHU SELECT OPTIONS ────────────────────────────────────
+function injectTypDachuSelect() {
+    const sel = document.getElementById('typ_dachu');
+    if (!sel) return;
+
+    // remember current value
+    const prev = sel.value;
+
+    // Clear and rebuild
+    sel.innerHTML = '<option value="">— wybierz —</option>';
+
+    const opts = typDachuOptions.length > 0
+        ? typDachuOptions
+        : [
+            { value: 'dwu',   label: 'Dwuspadowy' },
+            { value: 'tyl',   label: 'Tył' },
+            { value: 'lewo',  label: 'Lewo' },
+            { value: 'prawo', label: 'Prawo' },
+          ];
+
+    opts.forEach(opt => {
+        const el = document.createElement('option');
+        el.value = opt.value;
+        el.textContent = opt.label;
+        sel.appendChild(el);
+    });
+
+    // restore selection if still valid
+    if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
 }
 
 // ─── 5. FILL PRICE DISPLAY INPUTS ────────────────────────────────────────────
@@ -247,20 +282,27 @@ function runCalc() {
     const rynPriceEl = document.getElementById('price_ryn');
     const rynBadge   = document.getElementById('ryn_meters_badge');
 
+    // Determine mb multiplier from dimension (same as before)
     let rynMeters = 0;
-    if (typDachu === 'dwu')                              rynMeters = gl * 2;
-    else if (typDachu === 'tyl')                         rynMeters = sz;
+    if (typDachu === 'dwu')                               rynMeters = gl * 2;
+    else if (typDachu === 'tyl')                          rynMeters = sz;
     else if (typDachu === 'lewo' || typDachu === 'prawo') rynMeters = gl;
 
-    const rynTotal = rynMeters * PRICES.rynny;
+    // Allow override via typDachuOptions rynnyPerMb
+    const activeOpt = typDachuOptions.find(o => o.value === typDachu);
+    const rynnyRate = (activeOpt && activeOpt.rynnyPerMb > 0)
+        ? activeOpt.rynnyPerMb
+        : PRICES.rynny;
+
+    const rynTotal = rynMeters * rynnyRate;
     if (rynBadge) rynBadge.textContent = rynMeters > 0 ? `${rynMeters} mb` : '';
     if (rynPriceEl) rynPriceEl.value = Math.round(rynTotal);
 
     if (rynCb?.checked && rynTotal > 0) {
         if (rynPriceEl) rynPriceEl.classList.add('active-price');
         wSum += rynTotal;
-        const rynLabels = { dwu: 'Rynny dwuspadowy', tyl: 'Rynny tył', lewo: 'Rynny lewo', prawo: 'Rynny prawo' };
-        pdfItems.push(`${rynLabels[typDachu]}: ${Math.round(rynTotal)} PLN`);
+        const rynLabel = activeOpt ? `Rynny ${activeOpt.label}` : `Rynny ${typDachu}`;
+        pdfItems.push(`${rynLabel}: ${Math.round(rynTotal)} PLN`);
     } else {
         if (rynPriceEl) rynPriceEl.classList.remove('active-price');
     }
@@ -352,6 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Inject dynamic items into the calculator HTML
         injectDynamicItems();
+        injectTypDachuSelect();
 
         // Attach listeners
         document.querySelectorAll('.calc-trigger').forEach(el => {
