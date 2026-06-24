@@ -5,6 +5,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 // ─── 0. FIREBASE CONFIG ───────────────────────────────────────────────────────
 const firebaseConfig = {
@@ -17,7 +18,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+const db   = getFirestore(app);
+const auth = getAuth(app);
 
 // ─── 1. DEFAULT PRICES (fallback) ────────────────────────────────────────────
 let PRICES = {
@@ -310,17 +312,28 @@ function runCalc() {
 }
 
 // ─── 7. INIT ─────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', async () => {
-    await syncPricesWithFirebase();
+document.addEventListener('DOMContentLoaded', () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            window.location.href = 'admin.html';
+            return;
+        }
 
-    // Inject dynamic items into the calculator HTML
-    injectDynamicItems();
+        await syncPricesWithFirebase();
 
-    // Attach listeners
-    document.querySelectorAll('.calc-trigger').forEach(el => {
-        const event = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
-        el.addEventListener(event, runCalc);
+        // Show app now that auth is confirmed
+        const appEl = document.getElementById('main-app-content');
+        if (appEl) appEl.style.display = '';
+
+        // Inject dynamic items into the calculator HTML
+        injectDynamicItems();
+
+        // Attach listeners
+        document.querySelectorAll('.calc-trigger').forEach(el => {
+            const event = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
+            el.addEventListener(event, runCalc);
+        });
+
+        runCalc();
     });
-
-    runCalc();
 });
