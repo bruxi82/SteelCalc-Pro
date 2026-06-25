@@ -1,5 +1,5 @@
 /**
- * SteelCalc Pro — Admin Panel Logic
+ * SteelCalc Pro — Admin Panel Logic v2.1
  * Firebase Auth + Firestore ფასების მართვა
  */
 
@@ -454,4 +454,4 @@ $('btn-logout').addEventListener('click', () => signOut(auth));
 
 $('btn-save-prices').addEventListener('click', savePrices);
 
-onAuthStateChanged(auth, user => user ? showAdmin(user) : showLogin());
+onAuthStateChanged(auth, user => user ? showAdmin(user) : showLogin());ს
