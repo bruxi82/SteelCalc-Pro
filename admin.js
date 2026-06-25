@@ -273,10 +273,15 @@ async function savePrices() {
 
         // Typ Dachu
         data.typDachuOptions = typDachuOptions
-            .filter(o => o.label.trim() && o.value.trim())
+            .filter(o => o.label.trim())
             .map(o => ({
-                id: o.id, label: o.label.trim(), value: o.value.trim(),
-                price: o.price || 0, rynnyPerMb: o.rynnyPerMb || 0,
+                id:         o.id,
+                label:      o.label.trim(),
+                value:      o.value.trim() || o.label.trim().toLowerCase()
+                                .replace(/\s+/g, '_')
+                                .replace(/[^a-z0-9_]/g, ''),
+                price:      o.price || 0,
+                rynnyPerMb: o.rynnyPerMb || 0,
             }));
 
         // Transport
@@ -324,7 +329,14 @@ document.addEventListener('input', (e) => {
     // Typ Dachu
     if (t.matches('.td-label')) {
         const opt = typDachuOptions.find(o => o.id === t.dataset.id);
-        if (opt) opt.label = t.value;
+        if (opt) {
+            opt.label = t.value;
+            // value ავტომატურად label-იდან (თუ არ ყოფილა ხელით შეყვანილი)
+            if (!opt._valueManual) {
+                opt.value = t.value.trim().toLowerCase()
+                    .replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+            }
+        }
     }
     if (t.matches('.td-rynny')) {
         const opt = typDachuOptions.find(o => o.id === t.dataset.id);
