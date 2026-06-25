@@ -162,6 +162,7 @@ function injectTypDachuSelect() {
     const opts = typDachuOptions.length > 0 ? typDachuOptions : [
         { value: 'dwu', label: 'Dwuspadowy' },
         { value: 'tyl', label: 'Tył' },
+        { value: 'przod', label: 'Przod' },
         { value: 'lewo', label: 'Lewo' },
         { value: 'prawo', label: 'Prawo' },
     ];
