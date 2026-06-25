@@ -47,7 +47,6 @@ const FIELD_MAP = {
     ap_wykon_drewno:    'wykon_drewno',
     ap_nadwymiar:       'nadwymiar',
     ap_okucia:          'okucia',
-    ap_dach_dwuspad:    'dach_dwuspad',
     ap_scionaPerMeter:  'scionaPerMeter',
     ap_t8_rate:         't8_rate',
     ap_filc_rate:       'filc_rate',
@@ -158,12 +157,12 @@ document.addEventListener('input', (e) => {
 });
 
 // ─── Typ Dachu Options ───────────────────────────────────────────────────────
-// Each entry: { id, label, value, rynnyPerMb }
+// Each entry: { id, label, value, price, rynnyPerMb }
 const DEFAULT_TYP_DACHU = [
-    { id: 'td_dwu',   label: 'Dwuspadowy', value: 'dwu',   rynnyPerMb: 0 },
-    { id: 'td_tyl',   label: 'Tył',        value: 'tyl',   rynnyPerMb: 0 },
-    { id: 'td_lewo',  label: 'Lewo',       value: 'lewo',  rynnyPerMb: 0 },
-    { id: 'td_prawo', label: 'Prawo',      value: 'prawo', rynnyPerMb: 0 },
+    { id: 'td_dwu',   label: 'Dwuspadowy', value: 'dwu',   price: 0, rynnyPerMb: 0 },
+    { id: 'td_tyl',   label: 'Tył',        value: 'tyl',   price: 0, rynnyPerMb: 0 },
+    { id: 'td_lewo',  label: 'Lewo',       value: 'lewo',  price: 0, rynnyPerMb: 0 },
+    { id: 'td_prawo', label: 'Prawo',      value: 'prawo', price: 0, rynnyPerMb: 0 },
 ];
 
 let typDachuOptions = JSON.parse(JSON.stringify(DEFAULT_TYP_DACHU));
@@ -175,7 +174,7 @@ function renderTypDachuOptions() {
 
     typDachuOptions.forEach((opt) => {
         const row = document.createElement('div');
-        row.style.cssText = 'display:grid; grid-template-columns: 1fr 140px 120px auto; gap:6px; align-items:center; padding: 5px 8px; border-radius: var(--r-input); transition: background 0.15s;';
+        row.style.cssText = 'display:grid; grid-template-columns: 1fr 120px 110px 110px auto; gap:6px; align-items:center; padding: 5px 8px; border-radius: var(--r-input); transition: background 0.15s;';
         row.dataset.id = opt.id;
         row.innerHTML = `
             <input
@@ -197,8 +196,18 @@ function renderTypDachuOptions() {
             <div class="admin-input-wrap">
                 <input
                     type="number"
+                    class="admin-input td-price"
+                    value="${opt.price || 0}"
+                    min="0"
+                    data-id="${opt.id}"
+                >
+                <span class="admin-unit">PLN</span>
+            </div>
+            <div class="admin-input-wrap">
+                <input
+                    type="number"
                     class="admin-input td-rynny"
-                    value="${opt.rynnyPerMb}"
+                    value="${opt.rynnyPerMb || 0}"
                     min="0"
                     data-id="${opt.id}"
                 >
@@ -221,6 +230,10 @@ document.addEventListener('input', (e) => {
     if (e.target.matches('.td-value')) {
         const opt = typDachuOptions.find(o => o.id === e.target.dataset.id);
         if (opt) opt.value = e.target.value.trim();
+    }
+    if (e.target.matches('.td-price')) {
+        const opt = typDachuOptions.find(o => o.id === e.target.dataset.id);
+        if (opt) opt.price = parseFloat(e.target.value) || 0;
     }
     if (e.target.matches('.td-rynny')) {
         const opt = typDachuOptions.find(o => o.id === e.target.dataset.id);
@@ -449,6 +462,7 @@ async function savePrices() {
                 id:          o.id,
                 label:       o.label.trim(),
                 value:       o.value.trim(),
+                price:       o.price || 0,
                 rynnyPerMb:  o.rynnyPerMb || 0,
             }));
 

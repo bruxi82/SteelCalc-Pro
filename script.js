@@ -25,7 +25,7 @@ const auth = getAuth(app);
 let PRICES = {
     p1_rate: 750, p2_rate: 680, konstr_ocynk: 0, konstr_ral: 0,
     konstr_ral_mat: 0, wykon_drewno: 0, nadwymiar: 15, okucia: 700,
-    dach_dwuspad: 550, scionaPerMeter: 350, t8_rate: 0, filc_rate: 12,
+    scionaPerMeter: 350, t8_rate: 0, filc_rate: 12,
     bramaUchylna: 1100, okno: 600, napedCame: 950, furtka: 450,
     transport: 100, dostawa: 100, rynny: 1200, kotwienie: 250,
     brama_segm: 6000, blachodach: 4000, dach_2sk: 0
@@ -280,14 +280,15 @@ function runCalc() {
     const typDachu   = document.getElementById('typ_dachu')?.value || '';
     const dwuPriceEl = document.getElementById('price_dwu');
     const activeOpt  = typDachuOptions.find(o => o.value === typDachu);
+    const dachuPrice = activeOpt?.price || 0;
 
-    if (typDachu && dwuPriceEl) {
-        dwuPriceEl.value = Math.round(PRICES.dach_dwuspad);
+    if (typDachu && dwuPriceEl && dachuPrice > 0) {
+        dwuPriceEl.value = Math.round(dachuPrice);
         dwuPriceEl.classList.add('active-price');
-        ySum += PRICES.dach_dwuspad;
-        pdfItems.push(`Typ Dachu: ${activeOpt ? activeOpt.label : typDachu}`);
+        ySum += dachuPrice;
+        pdfItems.push(`Typ Dachu: ${activeOpt.label}`);
     } else if (dwuPriceEl) {
-        dwuPriceEl.value = Math.round(PRICES.dach_dwuspad);
+        dwuPriceEl.value = dachuPrice > 0 ? Math.round(dachuPrice) : '';
         dwuPriceEl.classList.remove('active-price');
     }
 
