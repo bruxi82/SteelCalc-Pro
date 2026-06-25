@@ -174,7 +174,7 @@ function renderTypDachuOptions() {
 
     typDachuOptions.forEach((opt) => {
         const row = document.createElement('div');
-        row.style.cssText = 'display:grid; grid-template-columns: 1fr 120px 110px 110px auto; gap:6px; align-items:center; padding: 5px 8px; border-radius: var(--r-input); transition: background 0.15s;';
+        row.style.cssText = 'display:grid; grid-template-columns: 1fr 140px auto; gap:6px; align-items:center; padding: 5px 8px; border-radius: var(--r-input); transition: background 0.15s;';
         row.dataset.id = opt.id;
         row.innerHTML = `
             <input
@@ -185,24 +185,6 @@ function renderTypDachuOptions() {
                 data-id="${opt.id}"
                 style="font-size:13px;"
             >
-            <input
-                type="text"
-                class="admin-input td-value"
-                value="${escHtml(opt.value)}"
-                placeholder="np. dwu"
-                data-id="${opt.id}"
-                style="font-size:12px; font-family:monospace; text-align:center;"
-            >
-            <div class="admin-input-wrap">
-                <input
-                    type="number"
-                    class="admin-input td-price"
-                    value="${opt.price || 0}"
-                    min="0"
-                    data-id="${opt.id}"
-                >
-                <span class="admin-unit">PLN</span>
-            </div>
             <div class="admin-input-wrap">
                 <input
                     type="number"
