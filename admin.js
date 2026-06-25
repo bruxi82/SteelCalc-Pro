@@ -137,6 +137,9 @@ let transportPrices = JSON.parse(JSON.stringify(DEFAULT_TRANSPORT));
 const DEFAULT_TYP_DACHU = [
     { id: 'td_dwu',   label: 'Dwuspadowy', value: 'dwu',   price: 0, rynnyPerMb: 0 },
     { id: 'td_tyl',   label: 'Tył',        value: 'tyl',   price: 0, rynnyPerMb: 0 },
+
+    { id: 'td_przod',   label: 'Przod',        value: 'przod',   price: 0, rynnyPerMb: 0 },
+    
     { id: 'td_lewo',  label: 'Lewo',       value: 'lewo',  price: 0, rynnyPerMb: 0 },
     { id: 'td_prawo', label: 'Prawo',      value: 'prawo', price: 0, rynnyPerMb: 0 },
 ];
