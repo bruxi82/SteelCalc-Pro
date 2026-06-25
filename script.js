@@ -303,7 +303,7 @@ function runCalc() {
 
     let rynMeters = 0;
     if      (typDachu === 'dwu')                               rynMeters = gl * 2;
-    else if (typDachu === 'tyl')                               rynMeters = sz;
+    else if (typDachu === 'tyl' || typDachu === 'przod')       rynMeters = sz;
     else if (typDachu === 'lewo' || typDachu === 'prawo')      rynMeters = gl;
 
     const rynnyRate = (activeOpt?.rynnyPerMb > 0) ? activeOpt.rynnyPerMb : PRICES.rynny;
