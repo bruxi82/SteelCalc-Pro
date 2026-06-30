@@ -202,10 +202,15 @@ function renderTypDachuOptions() {
     if (!list) return;
 
     list.innerHTML = typDachuOptions.map(opt => `
-        <div style="display:grid; grid-template-columns: 1fr 140px auto; gap:6px; align-items:center; padding:5px 8px; border-radius:var(--r-input);" data-id="${opt.id}">
+        <div style="display:grid; grid-template-columns: 1fr 110px 140px auto; gap:6px; align-items:center; padding:5px 8px; border-radius:var(--r-input);" data-id="${opt.id}">
             <input type="text" class="admin-input-text td-label"
                 value="${escHtml(opt.label)}" placeholder="Nazwa opcji..."
                 data-id="${opt.id}">
+            <div class="admin-input-wrap">
+                <input type="number" class="admin-input td-price"
+                    value="${opt.price || 0}" min="0" data-id="${opt.id}">
+                <span class="admin-unit">PLN</span>
+            </div>
             <div class="admin-input-wrap">
                 <input type="number" class="admin-input td-rynny"
                     value="${opt.rynnyPerMb || 0}" min="0" data-id="${opt.id}">
@@ -340,6 +345,10 @@ document.addEventListener('input', (e) => {
                     .replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
             }
         }
+    }
+    if (t.matches('.td-price')) {
+        const opt = typDachuOptions.find(o => o.id === t.dataset.id);
+        if (opt) opt.price = parseFloat(t.value) || 0;
     }
     if (t.matches('.td-rynny')) {
         const opt = typDachuOptions.find(o => o.id === t.dataset.id);
