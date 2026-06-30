@@ -35,6 +35,7 @@ let PRICES = {
     nadwymiar: 15, okucia: 700, scionaPerMeter: 350,
     kratownica: 0, slup: 0, filc_rate: 12,
     bramaUchylna: 1100, bramaDwu: 1100, okno: 600, napedCame: 950,
+    drzwiBlaszane: 0, drzwiEco: 0, drzwiGerda: 0, drzwiMtbram: 0,
     dostawa: 100, rynny: 1200, kotwienie: 250,
     brama_segm: 6000, blachodach: 4000,
 };
@@ -265,24 +266,36 @@ function runCalc() {
         if (qty > 0) { ySum += total; pdfItems.push(`${label}: ${qty} ${unit}`); }
     });
 
-    // ── Brama (uchylna/dwuskrzydłowa) — szerokość × wysokość → m² × cena/m² ──
-    const bramaTyp    = $('brama_typ')?.value || 'uchylna';
-    const bramaLabel  = bramaTyp === 'dwu' ? 'Brama dwuskrzydłowa' : 'Brama uchylna';
-    const bramaRate   = bramaTyp === 'dwu' ? PRICES.bramaDwu : PRICES.bramaUchylna;
-    const bramaSzCm   = getNum('brama_szer');
-    const bramaWyCm   = getNum('brama_wys');
-    const bramaM2     = (bramaSzCm / 100) * (bramaWyCm / 100);
-    const bramaTotal  = bramaM2 * bramaRate;
-    setVal('res_b_uch', Math.round(bramaTotal));
-    if (bramaM2 > 0) {
-        wSum += bramaTotal;
-        pdfItems.push(`${bramaLabel}: ${bramaSzCm}×${bramaWyCm} cm (${bramaM2.toFixed(2)} m²)`);
+    // ── Brama uchylna — szerokość × wysokość → m² × cena/m² ──
+    const uchSzCm  = getNum('brama_uch_szer');
+    const uchWyCm  = getNum('brama_uch_wys');
+    const uchM2    = (uchSzCm / 100) * (uchWyCm / 100);
+    const uchTotal = uchM2 * PRICES.bramaUchylna;
+    setVal('res_brama_uch', Math.round(uchTotal));
+    if (uchM2 > 0) {
+        wSum += uchTotal;
+        pdfItems.push(`Brama uchylna: ${uchSzCm}×${uchWyCm} cm (${uchM2.toFixed(2)} m²)`);
+    }
+
+    // ── Brama dwuskrzydłowa — szerokość × wysokość → m² × cena/m² ──
+    const dwuSzCm  = getNum('brama_dwu_szer');
+    const dwuWyCm  = getNum('brama_dwu_wys');
+    const dwuM2    = (dwuSzCm / 100) * (dwuWyCm / 100);
+    const dwuTotal = dwuM2 * PRICES.bramaDwu;
+    setVal('res_brama_dwu', Math.round(dwuTotal));
+    if (dwuM2 > 0) {
+        wSum += dwuTotal;
+        pdfItems.push(`Brama dwuskrzydłowa: ${dwuSzCm}×${dwuWyCm} cm (${dwuM2.toFixed(2)} m²)`);
     }
 
     // ── რაოდენობის პოზიციები (Okno, Napęd) ──
     [
         { qId: 'qty_okno',  rId: 'res_okno',  price: PRICES.okno,         label: 'Okno PCV (80x60)' },
         { qId: 'qty_came',  rId: 'res_came',  price: PRICES.napedCame,    label: 'Napęd Came'       },
+        { qId: 'qty_drzwi_blaszane', rId: 'res_drzwi_blaszane', price: PRICES.drzwiBlaszane, label: 'Drzwi blaszane'   },
+        { qId: 'qty_drzwi_eco',      rId: 'res_drzwi_eco',      price: PRICES.drzwiEco,      label: 'Drzwi Eco Basic' },
+        { qId: 'qty_drzwi_gerda',    rId: 'res_drzwi_gerda',    price: PRICES.drzwiGerda,    label: 'Drzwi Gerda'     },
+        { qId: 'qty_drzwi_mtbram',   rId: 'res_drzwi_mtbram',   price: PRICES.drzwiMtbram,   label: 'Drzwi MT-Bram'   },
     ].forEach(({ qId, rId, price, label }) => {
         const qty   = getInt(qId);
         const total = qty * price;

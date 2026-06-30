@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Konfigurator Wyceny</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
 
 </head>
 <body>
@@ -249,22 +249,44 @@
 
                 <div class="option-divider"></div>
 
-                <div class="option-row composite">
-                    <select id="brama_typ" class="calc-trigger" style="flex:1; min-width:140px; background:var(--c-surface-2); border:1px solid var(--c-border); border-radius:var(--r-input); color:var(--c-text); padding:8px 10px; font-family:var(--font-body); font-size:13px;">
-                        <option value="uchylna">Brama uchylna</option>
-                        <option value="dwu">Brama dwuskrzydłowa</option>
-                    </select>
+                <div class="option-row composite" style="align-items:flex-end;">
+                    <span class="option-text-plain">Brama uchylna</span>
                     <div class="composite-inputs">
-                        <div class="composite-field">
-                            <input type="number" id="brama_szer" value="0" min="0" class="calc-trigger">
-                            <span class="dim-unit">cm</span>
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Szerokość</span>
+                            <div class="composite-field">
+                                <input type="number" id="brama_uch_szer" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">cm</span>
+                            </div>
                         </div>
-                        <span class="dim-sep" style="font-size:13px;">×</span>
-                        <div class="composite-field">
-                            <input type="number" id="brama_wys" value="0" min="0" class="calc-trigger">
-                            <span class="dim-unit">cm</span>
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Wysokość</span>
+                            <div class="composite-field">
+                                <input type="number" id="brama_uch_wys" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">cm</span>
+                            </div>
                         </div>
-                        <input type="number" id="res_b_uch" value="0" class="price-input price-result" readonly>
+                        <input type="number" id="res_brama_uch" value="0" class="price-input price-result" readonly>
+                    </div>
+                </div>
+                <div class="option-row composite" style="align-items:flex-end;">
+                    <span class="option-text-plain">Brama dwuskrzydłowa</span>
+                    <div class="composite-inputs">
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Szerokość</span>
+                            <div class="composite-field">
+                                <input type="number" id="brama_dwu_szer" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">cm</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Wysokość</span>
+                            <div class="composite-field">
+                                <input type="number" id="brama_dwu_wys" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">cm</span>
+                            </div>
+                        </div>
+                        <input type="number" id="res_brama_dwu" value="0" class="price-input price-result" readonly>
                     </div>
                 </div>
                 <div class="option-row composite">
@@ -299,6 +321,46 @@
                             <span class="dim-unit">szt</span>
                         </div>
                         <input type="number" id="res_came" value="0" class="price-input price-result" readonly>
+                    </div>
+                </div>
+                <div class="option-row composite">
+                    <span class="option-text-plain">Drzwi blaszane</span>
+                    <div class="composite-inputs">
+                        <div class="composite-field">
+                            <input type="number" id="qty_drzwi_blaszane" value="0" min="0" class="calc-trigger">
+                            <span class="dim-unit">szt</span>
+                        </div>
+                        <input type="number" id="res_drzwi_blaszane" value="0" class="price-input price-result" readonly>
+                    </div>
+                </div>
+                <div class="option-row composite">
+                    <span class="option-text-plain">Drzwi Eco Basic</span>
+                    <div class="composite-inputs">
+                        <div class="composite-field">
+                            <input type="number" id="qty_drzwi_eco" value="0" min="0" class="calc-trigger">
+                            <span class="dim-unit">szt</span>
+                        </div>
+                        <input type="number" id="res_drzwi_eco" value="0" class="price-input price-result" readonly>
+                    </div>
+                </div>
+                <div class="option-row composite">
+                    <span class="option-text-plain">Drzwi Gerda</span>
+                    <div class="composite-inputs">
+                        <div class="composite-field">
+                            <input type="number" id="qty_drzwi_gerda" value="0" min="0" class="calc-trigger">
+                            <span class="dim-unit">szt</span>
+                        </div>
+                        <input type="number" id="res_drzwi_gerda" value="0" class="price-input price-result" readonly>
+                    </div>
+                </div>
+                <div class="option-row composite">
+                    <span class="option-text-plain">Drzwi MT-Bram</span>
+                    <div class="composite-inputs">
+                        <div class="composite-field">
+                            <input type="number" id="qty_drzwi_mtbram" value="0" min="0" class="calc-trigger">
+                            <span class="dim-unit">szt</span>
+                        </div>
+                        <input type="number" id="res_drzwi_mtbram" value="0" class="price-input price-result" readonly>
                     </div>
                 </div>
 
@@ -442,6 +504,6 @@
     </div>
 </div>
 
-<script type="module" src="script.js?v=6"></script>
+<script type="module" src="script.js?v=7"></script>
 </body>
 </html>
