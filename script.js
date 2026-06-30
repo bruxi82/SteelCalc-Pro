@@ -33,10 +33,10 @@ let PRICES = {
     p1_rate: 750, p2_rate: 680,
     konstr_ocynk: 0, konstr_ral: 0, konstr_ral_mat: 0, wykon_drewno: 0,
     nadwymiar: 15, okucia: 700, scionaPerMeter: 350,
-    t8_rate: 0, filc_rate: 12,
+    kratownica: 0, slup: 0, filc_rate: 12,
     bramaUchylna: 1100, okno: 600, napedCame: 950, furtka: 450,
     dostawa: 100, rynny: 1200, kotwienie: 250,
-    brama_segm: 6000, blachodach: 4000, dach_2sk: 0,
+    brama_segm: 6000, blachodach: 4000,
 };
 
 // ადმინიდან ჩამოტვირთული მონაცემები
@@ -193,14 +193,12 @@ function fillPriceDisplays(m2) {
         'price_nad':   m2 * PRICES.nadwymiar,
         'price_okuc':  PRICES.okucia,
         'price_filc':  m2 * PRICES.filc_rate,
-        't8_val':      PRICES.t8_rate,
         'price_furtka':PRICES.furtka,
         'price_reg':   PRICES.dostawa,
         'price_ryn':   0,   // → runCalc-ში განახლდება
         'price_kot':   PRICES.kotwienie,
         'price_seg':   PRICES.brama_segm,
         'price_blach': PRICES.blachodach,
-        'val_2sk':     PRICES.dach_2sk,
         // price_dwu  → runCalc-ში (typDachuOptions-დან)
         // price_tr   → runCalc-ში (transport combo-დან)
     };
@@ -256,6 +254,17 @@ function runCalc() {
         ySum += sTotal;
         pdfItems.push(`Ściana działowa: ${sMeters} mb`);
     }
+
+    // ── Kratownica / Słup (rozliczane na bazie, jak konstrukcja) ──
+    [
+        { qId: 'qty_kratownica', rId: 'res_kratownica', price: PRICES.kratownica, label: 'Kratownica' },
+        { qId: 'qty_slup',       rId: 'res_slup',        price: PRICES.slup,       label: 'Słup'       },
+    ].forEach(({ qId, rId, price, label }) => {
+        const qty   = getInt(qId);
+        const total = qty * price;
+        setVal(rId, total);
+        if (qty > 0) { ySum += total; pdfItems.push(`${label}: ${qty} szt.`); }
+    });
 
     // ── რაოდენობის პოზიციები (Brama, Okno, Napęd) ──
     [
@@ -349,10 +358,6 @@ function runCalc() {
             !trType             ? 'Wybierz typ produktu'      :
                                   'Wybierz województwo';
     }
-
-    // ── Pokrycie T8, Dach 2SK ──
-    if ($('t8_check')?.checked)   ySum += getNum('t8_val');
-    if ($('check_2sk')?.checked)  wSum += getNum('val_2sk');
 
     // ── Korekta (ручна корекція) ──
     wSum += getNum('val_doplata');

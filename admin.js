@@ -73,7 +73,8 @@ const FIELD_MAP = {
     ap_nadwymiar:      'nadwymiar',
     ap_okucia:         'okucia',
     ap_scionaPerMeter: 'scionaPerMeter',
-    ap_t8_rate:        't8_rate',
+    ap_kratownica:     'kratownica',
+    ap_slup:           'slup',
     ap_filc_rate:      'filc_rate',
     ap_bramaUchylna:   'bramaUchylna',
     ap_okno:           'okno',
@@ -84,7 +85,6 @@ const FIELD_MAP = {
     ap_kotwienie:      'kotwienie',
     ap_brama_segm:     'brama_segm',
     ap_blachodach:     'blachodach',
-    ap_dach_2sk:       'dach_2sk',
 };
 
 // კარდის config — რომელ სექციაში ჩაიდება და y/w ტიპი

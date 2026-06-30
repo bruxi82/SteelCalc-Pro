@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Konfigurator Wyceny</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=5">
 
 </head>
 <body>
@@ -177,13 +177,25 @@
                         </select>
                         <input type="number" id="price_dwu" class="price-input" readonly>
                     </div>
-                    <div class="option-row">
-                        <label class="option-label" for="t8_check">
-                            <input type="checkbox" id="t8_check" class="calc-trigger" data-label="Pokrycie T8">
-                            <span class="option-check"></span>
-                            <span class="option-text">Pokrycie <strong>T8</strong></span>
-                        </label>
-                        <input type="number" id="t8_val" class="price-input" readonly>
+                    <div class="option-row composite">
+                        <span class="option-text-plain">Kratownica</span>
+                        <div class="composite-inputs">
+                            <div class="composite-field">
+                                <input type="number" id="qty_kratownica" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">szt</span>
+                            </div>
+                            <input type="number" id="res_kratownica" value="0" class="price-input price-result" readonly>
+                        </div>
+                    </div>
+                    <div class="option-row composite">
+                        <span class="option-text-plain">Słup</span>
+                        <div class="composite-inputs">
+                            <div class="composite-field">
+                                <input type="number" id="qty_slup" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">szt</span>
+                            </div>
+                            <input type="number" id="res_slup" value="0" class="price-input price-result" readonly>
+                        </div>
                     </div>
                     <div class="option-row">
                         <label class="option-label" for="cb_filc">
@@ -200,14 +212,6 @@
                             <span class="option-text">Blachodachówka</span>
                         </label>
                         <input type="number" id="price_blach" class="price-input" readonly>
-                    </div>
-                    <div class="option-row">
-                        <label class="option-label" for="check_2sk">
-                            <input type="checkbox" id="check_2sk" class="calc-trigger" data-label="Dach 2SK">
-                            <span class="option-check"></span>
-                            <span class="option-text">Dach <strong>2SK</strong></span>
-                        </label>
-                        <input type="number" id="val_2sk" class="price-input" readonly>
                     </div>
                     <!-- System rynnowy: checkbox + auto price from typ_dachu -->
                     <div class="option-row">
@@ -424,6 +428,6 @@
     </div>
 </div>
 
-<script type="module" src="script.js?v=2"></script>
+<script type="module" src="script.js?v=3"></script>
 </body>
 </html>

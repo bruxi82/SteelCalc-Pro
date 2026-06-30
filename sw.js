@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rockStal-v4';
+const CACHE_NAME = 'rockStal-v5';
 const ASSETS = [
   '/SteelCalc-Pro/',
   '/SteelCalc-Pro/index.html',

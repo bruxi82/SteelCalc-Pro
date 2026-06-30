@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Panel Administratora</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=5">
     <link rel="stylesheet" href="admin.css">
 </head>
 <body class="admin-body">
@@ -139,9 +139,16 @@
                     </div>
                     <div class="admin-price-list">
                         <div class="admin-price-row">
-                            <label>Pokrycie T8</label>
+                            <label>Kratownica (szt.)</label>
                             <div class="admin-input-wrap">
-                                <input type="number" id="ap_t8_rate" class="admin-input" min="0">
+                                <input type="number" id="ap_kratownica" class="admin-input" min="0">
+                                <span class="admin-unit">PLN</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Słup (szt.)</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_slup" class="admin-input" min="0">
                                 <span class="admin-unit">PLN</span>
                             </div>
                         </div>
@@ -156,13 +163,6 @@
                             <label>Blachodachówka</label>
                             <div class="admin-input-wrap">
                                 <input type="number" id="ap_blachodach" class="admin-input" min="0">
-                                <span class="admin-unit">PLN</span>
-                            </div>
-                        </div>
-                        <div class="admin-price-row">
-                            <label>Dach 2SK</label>
-                            <div class="admin-input-wrap">
-                                <input type="number" id="ap_dach_2sk" class="admin-input" min="0">
                                 <span class="admin-unit">PLN</span>
                             </div>
                         </div>
@@ -320,6 +320,6 @@
         </div><!-- /admin-body-wrap -->
     </div><!-- /admin-panel -->
 
-<script type="module" src="admin.js?v=2.1"></script>
+<script type="module" src="admin.js?v=2.2"></script>
 </body>
 </html>
