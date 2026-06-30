@@ -218,10 +218,12 @@ function fillPriceDisplays(m2) {
 // ════════════════════════════════════════════════════════════
 
 function runCalc() {
-    const sz  = getNum('w_szer');
-    const gl  = getNum('w_gleb');
-    const hCm = getNum('w_wys_cm');
-    const m2  = sz * gl;
+    const szCm = getNum('w_szer');
+    const glCm = getNum('w_gleb');
+    const sz   = szCm / 100;   // Szerokość w metrach (do obliczeń)
+    const gl   = glCm / 100;   // Głębokość w metrach (do obliczeń)
+    const hCm  = getNum('w_wys_cm');
+    const m2   = sz * gl;
 
     setDisp('dim-summary', `Powierzchnia: ${m2.toFixed(1)} m² | Wysokość: ${(hCm/100).toFixed(2)} m`);
     fillPriceDisplays(m2);
@@ -379,7 +381,7 @@ function updatePdf(sz, gl, hCm, brutto, pdfItems) {
     const specsEl = $('pdf_specs');
     if (specsEl) {
         specsEl.innerHTML =
-            `<li><span>Wymiary</span><strong>${sz}×${gl} m</strong></li>` +
+            `<li><span>Wymiary</span><strong>${sz.toFixed(2).replace(/\.?0+$/, '')}×${gl.toFixed(2).replace(/\.?0+$/, '')} m</strong></li>` +
             `<li><span>Wysokość</span><strong>${(hCm/100).toFixed(2)} m</strong></li>` +
             pdfItems.filter(Boolean)
                 .map(i => `<li><span>${i}</span><span>✔</span></li>`).join('');
