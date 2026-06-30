@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Konfigurator Wyceny</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=8">
 
 </head>
 <body>
@@ -250,23 +250,45 @@
                 <div class="option-divider"></div>
 
                 <div class="option-row composite">
-                    <span class="option-text-plain">Brama uchylna</span>
+                    <select id="brama_typ" class="calc-trigger" style="flex:1; min-width:140px; background:var(--c-surface-2); border:1px solid var(--c-border); border-radius:var(--r-input); color:var(--c-text); padding:8px 10px; font-family:var(--font-body); font-size:13px;">
+                        <option value="uchylna">Brama uchylna</option>
+                        <option value="dwu">Brama dwuskrzydłowa</option>
+                    </select>
                     <div class="composite-inputs">
                         <div class="composite-field">
-                            <input type="number" id="qty_b_uch" value="0" min="0" class="calc-trigger">
-                            <span class="dim-unit">szt</span>
+                            <input type="number" id="brama_szer" value="0" min="0" class="calc-trigger">
+                            <span class="dim-unit">cm</span>
+                        </div>
+                        <span class="dim-sep" style="font-size:13px;">×</span>
+                        <div class="composite-field">
+                            <input type="number" id="brama_wys" value="0" min="0" class="calc-trigger">
+                            <span class="dim-unit">cm</span>
                         </div>
                         <input type="number" id="res_b_uch" value="0" class="price-input price-result" readonly>
                     </div>
                 </div>
                 <div class="option-row composite">
-                    <span class="option-text-plain">Okno PCV</span>
+                    <span class="option-text-plain">Okno PCV (80x60)</span>
                     <div class="composite-inputs">
                         <div class="composite-field">
                             <input type="number" id="qty_okno" value="0" min="0" class="calc-trigger">
                             <span class="dim-unit">szt</span>
                         </div>
                         <input type="number" id="res_okno" value="0" class="price-input price-result" readonly>
+                    </div>
+                </div>
+                <div class="option-row composite">
+                    <span class="option-text-plain">Okno PCV inne</span>
+                    <div class="composite-inputs">
+                        <div class="composite-field">
+                            <input type="number" id="qty_okno_inne" value="0" min="0" class="calc-trigger">
+                            <span class="dim-unit">szt</span>
+                        </div>
+                        <div class="composite-field">
+                            <input type="number" id="cena_okno_inne" value="0" min="0" class="calc-trigger">
+                            <span class="dim-unit">PLN</span>
+                        </div>
+                        <input type="number" id="res_okno_inne" value="0" class="price-input price-result" readonly>
                     </div>
                 </div>
                 <div class="option-row composite">
@@ -290,14 +312,6 @@
                             <span class="option-text">Brama Segmentowa</span>
                         </label>
                         <input type="number" id="price_seg" class="price-input" readonly>
-                    </div>
-                    <div class="option-row">
-                        <label class="option-label" for="cb_furtka">
-                            <input type="checkbox" id="cb_furtka" class="w-check calc-trigger" data-label="Dodatkowa furtka">
-                            <span class="option-check"></span>
-                            <span class="option-text">Dodatkowa furtka</span>
-                        </label>
-                        <input type="number" id="price_furtka" class="price-input" readonly>
                     </div>
                     <div class="option-row">
                         <label class="option-label" for="cb_kot">
@@ -428,6 +442,6 @@
     </div>
 </div>
 
-<script type="module" src="script.js?v=4"></script>
+<script type="module" src="script.js?v=6"></script>
 </body>
 </html>

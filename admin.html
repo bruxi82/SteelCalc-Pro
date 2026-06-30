@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Panel Administratora</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=8">
     <link rel="stylesheet" href="admin.css">
 </head>
 <body class="admin-body">
@@ -215,10 +215,17 @@
                             </div>
                         </div>
                         <div class="admin-price-row">
-                            <label>Brama Uchylna (szt.)</label>
+                            <label>Brama Uchylna</label>
                             <div class="admin-input-wrap">
                                 <input type="number" id="ap_bramaUchylna" class="admin-input" min="0">
-                                <span class="admin-unit">PLN</span>
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Brama Dwuskrzydłowa</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_bramaDwu" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
                             </div>
                         </div>
                         <div class="admin-price-row">
@@ -229,7 +236,7 @@
                             </div>
                         </div>
                         <div class="admin-price-row">
-                            <label>Okno PCV (szt.)</label>
+                            <label>Okno PCV (80x60) (szt.)</label>
                             <div class="admin-input-wrap">
                                 <input type="number" id="ap_okno" class="admin-input" min="0">
                                 <span class="admin-unit">PLN</span>
@@ -239,13 +246,6 @@
                             <label>Napęd CAME (szt.)</label>
                             <div class="admin-input-wrap">
                                 <input type="number" id="ap_napedCame" class="admin-input" min="0">
-                                <span class="admin-unit">PLN</span>
-                            </div>
-                        </div>
-                        <div class="admin-price-row">
-                            <label>Dodatkowa Furtka</label>
-                            <div class="admin-input-wrap">
-                                <input type="number" id="ap_furtka" class="admin-input" min="0">
                                 <span class="admin-unit">PLN</span>
                             </div>
                         </div>
@@ -320,6 +320,6 @@
         </div><!-- /admin-body-wrap -->
     </div><!-- /admin-panel -->
 
-<script type="module" src="admin.js?v=2.3"></script>
+<script type="module" src="admin.js?v=2.5"></script>
 </body>
 </html>

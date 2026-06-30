@@ -34,7 +34,7 @@ let PRICES = {
     konstr_ocynk: 0, konstr_ral: 0, konstr_ral_mat: 0, wykon_drewno: 0,
     nadwymiar: 15, okucia: 700, scionaPerMeter: 350,
     kratownica: 0, slup: 0, filc_rate: 12,
-    bramaUchylna: 1100, okno: 600, napedCame: 950, furtka: 450,
+    bramaUchylna: 1100, bramaDwu: 1100, okno: 600, napedCame: 950,
     dostawa: 100, rynny: 1200, kotwienie: 250,
     brama_segm: 6000, blachodach: 4000,
 };
@@ -193,7 +193,6 @@ function fillPriceDisplays(m2) {
         'price_nad':   m2 * PRICES.nadwymiar,
         'price_okuc':  PRICES.okucia,
         'price_filc':  m2 * PRICES.filc_rate,
-        'price_furtka':PRICES.furtka,
         'price_reg':   PRICES.dostawa,
         'price_ryn':   0,   // → runCalc-ში განახლდება
         'price_kot':   PRICES.kotwienie,
@@ -266,17 +265,40 @@ function runCalc() {
         if (qty > 0) { ySum += total; pdfItems.push(`${label}: ${qty} ${unit}`); }
     });
 
-    // ── რაოდენობის პოზიციები (Brama, Okno, Napęd) ──
+    // ── Brama (uchylna/dwuskrzydłowa) — szerokość × wysokość → m² × cena/m² ──
+    const bramaTyp    = $('brama_typ')?.value || 'uchylna';
+    const bramaLabel  = bramaTyp === 'dwu' ? 'Brama dwuskrzydłowa' : 'Brama uchylna';
+    const bramaRate   = bramaTyp === 'dwu' ? PRICES.bramaDwu : PRICES.bramaUchylna;
+    const bramaSzCm   = getNum('brama_szer');
+    const bramaWyCm   = getNum('brama_wys');
+    const bramaM2     = (bramaSzCm / 100) * (bramaWyCm / 100);
+    const bramaTotal  = bramaM2 * bramaRate;
+    setVal('res_b_uch', Math.round(bramaTotal));
+    if (bramaM2 > 0) {
+        wSum += bramaTotal;
+        pdfItems.push(`${bramaLabel}: ${bramaSzCm}×${bramaWyCm} cm (${bramaM2.toFixed(2)} m²)`);
+    }
+
+    // ── რაოდენობის პოზიციები (Okno, Napęd) ──
     [
-        { qId: 'qty_b_uch', rId: 'res_b_uch', price: PRICES.bramaUchylna, label: 'Brama uchylna' },
-        { qId: 'qty_okno',  rId: 'res_okno',  price: PRICES.okno,         label: 'Okno PCV'      },
-        { qId: 'qty_came',  rId: 'res_came',  price: PRICES.napedCame,    label: 'Napęd Came'    },
+        { qId: 'qty_okno',  rId: 'res_okno',  price: PRICES.okno,         label: 'Okno PCV (80x60)' },
+        { qId: 'qty_came',  rId: 'res_came',  price: PRICES.napedCame,    label: 'Napęd Came'       },
     ].forEach(({ qId, rId, price, label }) => {
         const qty   = getInt(qId);
         const total = qty * price;
         setVal(rId, total);
         if (qty > 0) { wSum += total; pdfItems.push(`${label}: ${qty} szt.`); }
     });
+
+    // ── Okno PCV inne — ręcznie wpisana ilość i cena jednostkowa ──
+    const oknoInneQty   = getInt('qty_okno_inne');
+    const oknoInneCena  = getNum('cena_okno_inne');
+    const oknoInneTotal = oknoInneQty * oknoInneCena;
+    setVal('res_okno_inne', Math.round(oknoInneTotal));
+    if (oknoInneQty > 0 && oknoInneCena > 0) {
+        wSum += oknoInneTotal;
+        pdfItems.push(`Okno PCV inne: ${oknoInneQty} szt. × ${oknoInneCena} PLN`);
+    }
 
     // ── w-check: დანამატების checkbox-ები ──
     document.querySelectorAll('.w-check').forEach(cb => {

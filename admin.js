@@ -77,9 +77,9 @@ const FIELD_MAP = {
     ap_slup:           'slup',
     ap_filc_rate:      'filc_rate',
     ap_bramaUchylna:   'bramaUchylna',
+    ap_bramaDwu:       'bramaDwu',
     ap_okno:           'okno',
     ap_napedCame:      'napedCame',
-    ap_furtka:         'furtka',
     ap_dostawa:        'dostawa',
     ap_rynny:          'rynny',
     ap_kotwienie:      'kotwienie',
@@ -466,4 +466,4 @@ $('btn-logout').addEventListener('click', () => signOut(auth));
 
 $('btn-save-prices').addEventListener('click', savePrices);
 
-onAuthStateChanged(auth, user => user ? showAdmin(user) : showLogin());ს
+onAuthStateChanged(auth, user => user ? showAdmin(user) : showLogin());
