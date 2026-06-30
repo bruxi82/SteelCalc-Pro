@@ -257,13 +257,13 @@ function runCalc() {
 
     // ── Kratownica / Słup (rozliczane na bazie, jak konstrukcja) ──
     [
-        { qId: 'qty_kratownica', rId: 'res_kratownica', price: PRICES.kratownica, label: 'Kratownica' },
-        { qId: 'qty_slup',       rId: 'res_slup',        price: PRICES.slup,       label: 'Słup'       },
-    ].forEach(({ qId, rId, price, label }) => {
-        const qty   = getInt(qId);
+        { qId: 'qty_kratownica', rId: 'res_kratownica', price: PRICES.kratownica, label: 'Kratownica', unit: 'szt.', int: true },
+        { qId: 'qty_slup',       rId: 'res_slup',        price: PRICES.slup,       label: 'Słup',       unit: 'mb',   int: false },
+    ].forEach(({ qId, rId, price, label, unit, int }) => {
+        const qty   = int ? getInt(qId) : getNum(qId);
         const total = qty * price;
         setVal(rId, total);
-        if (qty > 0) { ySum += total; pdfItems.push(`${label}: ${qty} szt.`); }
+        if (qty > 0) { ySum += total; pdfItems.push(`${label}: ${qty} ${unit}`); }
     });
 
     // ── რაოდენობის პოზიციები (Brama, Okno, Napęd) ──
