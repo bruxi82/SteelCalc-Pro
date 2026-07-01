@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Konfigurator Wyceny</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=11">
 
 </head>
 <body>
@@ -266,6 +266,13 @@
                                 <span class="dim-unit">cm</span>
                             </div>
                         </div>
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Ilość</span>
+                            <div class="composite-field">
+                                <input type="number" id="qty_b_uch_new" value="1" min="1" class="calc-trigger">
+                                <span class="dim-unit">szt</span>
+                            </div>
+                        </div>
                         <input type="number" id="res_brama_uch" value="0" class="price-input price-result" readonly>
                     </div>
                 </div>
@@ -284,6 +291,13 @@
                             <div class="composite-field">
                                 <input type="number" id="brama_dwu_wys" value="0" min="0" class="calc-trigger">
                                 <span class="dim-unit">cm</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Ilość</span>
+                            <div class="composite-field">
+                                <input type="number" id="qty_b_dwu_new" value="1" min="1" class="calc-trigger">
+                                <span class="dim-unit">szt</span>
                             </div>
                         </div>
                         <input type="number" id="res_brama_dwu" value="0" class="price-input price-result" readonly>
@@ -481,6 +495,6 @@
     </div>
 </div>
 
-<script type="module" src="script.js?v=8"></script>
+<script type="module" src="script.js?v=9"></script>
 </body>
 </html>

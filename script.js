@@ -266,26 +266,28 @@ function runCalc() {
         if (qty > 0) { ySum += total; pdfItems.push(`${label}: ${qty} ${unit}`); }
     });
 
-    // ── Brama uchylna — szerokość × wysokość → m² × cena/m² ──
+    // ── Brama uchylna — szerokość × wysokość → m² × cena/m² × ilość ──
     const uchSzCm  = getNum('brama_uch_szer');
     const uchWyCm  = getNum('brama_uch_wys');
+    const uchQty   = getInt('qty_b_uch_new') || 1;
     const uchM2    = (uchSzCm / 100) * (uchWyCm / 100);
-    const uchTotal = uchM2 * PRICES.bramaUchylna;
+    const uchTotal = uchM2 * PRICES.bramaUchylna * uchQty;
     setVal('res_brama_uch', Math.round(uchTotal));
     if (uchM2 > 0) {
         wSum += uchTotal;
-        pdfItems.push(`Brama uchylna: ${uchSzCm}×${uchWyCm} cm (${uchM2.toFixed(2)} m²)`);
+        pdfItems.push(`Brama uchylna: ${uchSzCm}×${uchWyCm} cm × ${uchQty} szt. (${(uchM2 * uchQty).toFixed(2)} m²)`);
     }
 
-    // ── Brama dwuskrzydłowa — szerokość × wysokość → m² × cena/m² ──
+    // ── Brama dwuskrzydłowa — szerokość × wysokość → m² × cena/m² × ilość ──
     const dwuSzCm  = getNum('brama_dwu_szer');
     const dwuWyCm  = getNum('brama_dwu_wys');
+    const dwuQty   = getInt('qty_b_dwu_new') || 1;
     const dwuM2    = (dwuSzCm / 100) * (dwuWyCm / 100);
-    const dwuTotal = dwuM2 * PRICES.bramaDwu;
+    const dwuTotal = dwuM2 * PRICES.bramaDwu * dwuQty;
     setVal('res_brama_dwu', Math.round(dwuTotal));
     if (dwuM2 > 0) {
         wSum += dwuTotal;
-        pdfItems.push(`Brama dwuskrzydłowa: ${dwuSzCm}×${dwuWyCm} cm (${dwuM2.toFixed(2)} m²)`);
+        pdfItems.push(`Brama dwuskrzydłowa: ${dwuSzCm}×${dwuWyCm} cm × ${dwuQty} szt. (${(dwuM2 * dwuQty).toFixed(2)} m²)`);
     }
 
     // ── რაოდენობის პოზიციები (Okno, Napęd) ──
