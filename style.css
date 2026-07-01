@@ -369,7 +369,129 @@ body {
     margin: 10px 0;
 }
 
-/* --- 10. Composite rows (qty + price) --- */
+/* --- 11. Dynamic Door Rows --- */
+#dynamic-doors-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.door-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 6px 8px;
+    border-radius: var(--r-input);
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-border);
+    transition: border-color 0.15s ease;
+}
+
+.door-row:hover { border-color: rgba(240,165,0,0.3); }
+
+.door-row .door-type-select {
+    flex: 1;
+    min-width: 140px;
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-input);
+    color: var(--c-text);
+    padding: 7px 10px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.18s ease;
+}
+
+.door-row .door-type-select:focus {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px var(--c-accent-dim);
+}
+
+.door-qty-wrap {
+    display: flex;
+    align-items: center;
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-input);
+    overflow: hidden;
+    width: 80px;
+    flex-shrink: 0;
+    transition: border-color 0.18s ease;
+}
+
+.door-qty-wrap:focus-within {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px var(--c-accent-dim);
+}
+
+.door-qty-wrap .door-qty-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--c-text);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    padding: 7px 6px;
+    text-align: right;
+    -moz-appearance: textfield;
+}
+
+.door-qty-wrap .door-qty-input::-webkit-inner-spin-button,
+.door-qty-wrap .door-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+.door-row .door-res {
+    width: 90px;
+    flex-shrink: 0;
+}
+
+.btn-remove-door {
+    background: none;
+    border: none;
+    color: var(--c-text-muted);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.btn-remove-door:hover {
+    color: var(--c-red);
+    background: rgba(239,68,68,0.08);
+}
+
+#btn-add-door {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 8px 14px;
+    margin-top: 4px;
+    background: transparent;
+    border: 1px dashed rgba(240,165,0,0.35);
+    border-radius: var(--r-input);
+    color: var(--c-accent);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+#btn-add-door:hover {
+    background: var(--c-accent-dim);
+    border-color: var(--c-accent);
+    border-style: solid;
+}
+
+
 .option-row.composite { flex-wrap: wrap; gap: 8px; }
 .composite-inputs {
     display: flex;

@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Konfigurator Wyceny</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=10">
 
 </head>
 <body>
@@ -323,46 +323,23 @@
                         <input type="number" id="res_came" value="0" class="price-input price-result" readonly>
                     </div>
                 </div>
-                <div class="option-row composite">
-                    <span class="option-text-plain">Drzwi blaszane</span>
-                    <div class="composite-inputs">
-                        <div class="composite-field">
-                            <input type="number" id="qty_drzwi_blaszane" value="0" min="0" class="calc-trigger">
+                <div id="dynamic-doors-container">
+                    <div class="door-row">
+                        <select class="door-type-select calc-trigger">
+                            <option value="">— Wybierz drzwi —</option>
+                            <option value="drzwiBlaszane">Drzwi blaszane</option>
+                            <option value="drzwiEco">Drzwi Eco Basic</option>
+                            <option value="drzwiGerda">Drzwi Gerda</option>
+                            <option value="drzwiMtbram">Drzwi MT-Bram</option>
+                        </select>
+                        <div class="door-qty-wrap">
+                            <input type="number" class="door-qty-input calc-trigger" min="0" value="0">
                             <span class="dim-unit">szt</span>
                         </div>
-                        <input type="number" id="res_drzwi_blaszane" value="0" class="price-input price-result" readonly>
+                        <input type="number" class="door-res price-input price-result" value="0" readonly>
                     </div>
                 </div>
-                <div class="option-row composite">
-                    <span class="option-text-plain">Drzwi Eco Basic</span>
-                    <div class="composite-inputs">
-                        <div class="composite-field">
-                            <input type="number" id="qty_drzwi_eco" value="0" min="0" class="calc-trigger">
-                            <span class="dim-unit">szt</span>
-                        </div>
-                        <input type="number" id="res_drzwi_eco" value="0" class="price-input price-result" readonly>
-                    </div>
-                </div>
-                <div class="option-row composite">
-                    <span class="option-text-plain">Drzwi Gerda</span>
-                    <div class="composite-inputs">
-                        <div class="composite-field">
-                            <input type="number" id="qty_drzwi_gerda" value="0" min="0" class="calc-trigger">
-                            <span class="dim-unit">szt</span>
-                        </div>
-                        <input type="number" id="res_drzwi_gerda" value="0" class="price-input price-result" readonly>
-                    </div>
-                </div>
-                <div class="option-row composite">
-                    <span class="option-text-plain">Drzwi MT-Bram</span>
-                    <div class="composite-inputs">
-                        <div class="composite-field">
-                            <input type="number" id="qty_drzwi_mtbram" value="0" min="0" class="calc-trigger">
-                            <span class="dim-unit">szt</span>
-                        </div>
-                        <input type="number" id="res_drzwi_mtbram" value="0" class="price-input price-result" readonly>
-                    </div>
-                </div>
+                <button id="btn-add-door" type="button">+ Dodaj drzwi</button>
 
                 <div class="option-divider"></div>
 
@@ -504,6 +481,6 @@
     </div>
 </div>
 
-<script type="module" src="script.js?v=7"></script>
+<script type="module" src="script.js?v=8"></script>
 </body>
 </html>

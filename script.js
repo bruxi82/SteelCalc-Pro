@@ -290,17 +290,28 @@ function runCalc() {
 
     // ── რაოდენობის პოზიციები (Okno, Napęd) ──
     [
-        { qId: 'qty_okno',  rId: 'res_okno',  price: PRICES.okno,         label: 'Okno PCV (80x60)' },
-        { qId: 'qty_came',  rId: 'res_came',  price: PRICES.napedCame,    label: 'Napęd Came'       },
-        { qId: 'qty_drzwi_blaszane', rId: 'res_drzwi_blaszane', price: PRICES.drzwiBlaszane, label: 'Drzwi blaszane'   },
-        { qId: 'qty_drzwi_eco',      rId: 'res_drzwi_eco',      price: PRICES.drzwiEco,      label: 'Drzwi Eco Basic' },
-        { qId: 'qty_drzwi_gerda',    rId: 'res_drzwi_gerda',    price: PRICES.drzwiGerda,    label: 'Drzwi Gerda'     },
-        { qId: 'qty_drzwi_mtbram',   rId: 'res_drzwi_mtbram',   price: PRICES.drzwiMtbram,   label: 'Drzwi MT-Bram'   },
+        { qId: 'qty_okno',  rId: 'res_okno',  price: PRICES.okno,      label: 'Okno PCV (80x60)' },
+        { qId: 'qty_came',  rId: 'res_came',  price: PRICES.napedCame, label: 'Napęd Came'       },
     ].forEach(({ qId, rId, price, label }) => {
         const qty   = getInt(qId);
         const total = qty * price;
         setVal(rId, total);
         if (qty > 0) { wSum += total; pdfItems.push(`${label}: ${qty} szt.`); }
+    });
+
+    // ── Drzwi (dynamic rows) ──
+    document.querySelectorAll('#dynamic-doors-container .door-row').forEach(row => {
+        const sel   = row.querySelector('.door-type-select');
+        const qtyEl = row.querySelector('.door-qty-input');
+        const resEl = row.querySelector('.door-res');
+        const key   = sel?.value;
+        const qty   = parseInt(qtyEl?.value) || 0;
+        const price = key ? (PRICES[key] || 0) : 0;
+        const total = qty * price;
+        if (resEl) resEl.value = total;
+        if (key && qty > 0 && price > 0) {
+            wSum += total;
+        }
     });
 
     // ── Okno PCV inne — ręcznie wpisana ilość i cena jednostkowa ──
@@ -436,8 +447,55 @@ function updatePdf(sz, gl, hCm, brutto, pdfItems) {
 }
 
 // ════════════════════════════════════════════════════════════
-//  9. INIT
+//  8b. DYNAMIC DOORS
 // ════════════════════════════════════════════════════════════
+
+function createDoorRow(removable = true) {
+    const row = document.createElement('div');
+    row.className = 'door-row';
+    row.innerHTML = `
+        <select class="door-type-select calc-trigger">
+            <option value="">— Wybierz drzwi —</option>
+            <option value="drzwiBlaszane">Drzwi blaszane</option>
+            <option value="drzwiEco">Drzwi Eco Basic</option>
+            <option value="drzwiGerda">Drzwi Gerda</option>
+            <option value="drzwiMtbram">Drzwi MT-Bram</option>
+        </select>
+        <div class="door-qty-wrap">
+            <input type="number" class="door-qty-input calc-trigger" min="0" value="0">
+            <span class="dim-unit">szt</span>
+        </div>
+        <input type="number" class="door-res price-input price-result" value="0" readonly>
+        ${removable ? '<button type="button" class="btn-remove-door" title="Usuń">✕</button>' : ''}
+    `;
+    // gdy wybierze typ → qty zostaje 0 (już jest), calc się odpali przez calc-trigger
+    row.querySelector('.door-type-select').addEventListener('change', () => runCalc());
+    row.querySelector('.door-qty-input').addEventListener('input', () => runCalc());
+    if (removable) {
+        row.querySelector('.btn-remove-door').addEventListener('click', () => {
+            row.remove();
+            runCalc();
+        });
+    }
+    return row;
+}
+
+function initDoorSystem() {
+    const container = document.getElementById('dynamic-doors-container');
+    if (!container) return;
+    // პირველი (საწყისი) რიგი — არ შეიძლება წაშლა
+    const firstRow = container.querySelector('.door-row');
+    if (firstRow) {
+        firstRow.querySelector('.door-type-select').addEventListener('change', () => runCalc());
+        firstRow.querySelector('.door-qty-input').addEventListener('input', () => runCalc());
+    }
+    // "+ Dodaj drzwi" ღილაკი
+    document.getElementById('btn-add-door')?.addEventListener('click', () => {
+        container.appendChild(createDoorRow(true));
+    });
+}
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, async (user) => {
@@ -450,6 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         injectDynamicItems();
         injectTypDachuSelect();
+        initDoorSystem();
 
         document.querySelectorAll('.calc-trigger').forEach(el => {
             el.addEventListener(
