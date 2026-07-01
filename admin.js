@@ -64,15 +64,28 @@ function formatTimestamp(ts) {
 
 // HTML input ID → Firebase document key
 const FIELD_MAP = {
-    ap_p1_rate:        'p1_rate',
-    ap_p2_rate:        'p2_rate',
+    // Płyty ścienne
+    ap_plyta_scienna_pir_40:   'plyta_scienna_pir_40',
+    ap_plyta_scienna_pir_60:   'plyta_scienna_pir_60',
+    ap_plyta_scienna_pir_100:  'plyta_scienna_pir_100',
+    ap_plyta_scienna_sty_50:   'plyta_scienna_sty_50',
+    ap_plyta_scienna_sty_100:  'plyta_scienna_sty_100',
+    // Płyty dachowe
+    ap_plyta_dachowa_pir_40:   'plyta_dachowa_pir_40',
+    ap_plyta_dachowa_pir_60:   'plyta_dachowa_pir_60',
+    ap_plyta_dachowa_pir_100:  'plyta_dachowa_pir_100',
+    // Płyty działowe
+    ap_plyta_dzialowa_pir_40:  'plyta_dzialowa_pir_40',
+    ap_plyta_dzialowa_pir_60:  'plyta_dzialowa_pir_60',
+    ap_plyta_dzialowa_pir_100: 'plyta_dzialowa_pir_100',
+    ap_plyta_dzialowa_sty_50:  'plyta_dzialowa_sty_50',
+    ap_plyta_dzialowa_sty_100: 'plyta_dzialowa_sty_100',
     ap_konstr_ocynk:   'konstr_ocynk',
     ap_konstr_ral:     'konstr_ral',
     ap_konstr_ral_mat: 'konstr_ral_mat',
     ap_wykon_drewno:   'wykon_drewno',
     ap_nadwymiar:      'nadwymiar',
     ap_okucia:         'okucia',
-    ap_scionaPerMeter: 'scionaPerMeter',
     ap_kratownica:     'kratownica',
     ap_slup:           'slup',
     ap_filc_rate:      'filc_rate',
@@ -470,4 +483,4 @@ $('btn-logout').addEventListener('click', () => signOut(auth));
 
 $('btn-save-prices').addEventListener('click', savePrices);
 
-onAuthStateChanged(auth, user => user ? showAdmin(user) : showLogin());
+onAuthStateChanged(auth, user => user ? showAdmin(user) : showLogin());ს

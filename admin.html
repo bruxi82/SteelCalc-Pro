@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Panel Administratora</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=11">
+    <link rel="stylesheet" href="style.css?v=12">
     <link rel="stylesheet" href="admin.css">
 </head>
 <body class="admin-body">
@@ -83,17 +83,106 @@
                         <span class="price-unit-hint">PLN / m²</span>
                     </div>
                     <div class="admin-price-list">
+                        <!-- Płyta ścienna -->
+                        <div class="admin-price-row" style="padding-top:4px;">
+                            <label style="font-weight:600; color:var(--c-accent); font-size:11px; text-transform:uppercase; letter-spacing:1px;">Ścienna</label>
+                        </div>
                         <div class="admin-price-row">
-                            <label>Płyta Obornicka 10cm</label>
+                            <label>PIR 40mm</label>
                             <div class="admin-input-wrap">
-                                <input type="number" id="ap_p1_rate" class="admin-input" min="0">
+                                <input type="number" id="ap_plyta_scienna_pir_40" class="admin-input" min="0">
                                 <span class="admin-unit">PLN/m²</span>
                             </div>
                         </div>
                         <div class="admin-price-row">
-                            <label>Płyta Obornicka 5cm</label>
+                            <label>PIR 60mm</label>
                             <div class="admin-input-wrap">
-                                <input type="number" id="ap_p2_rate" class="admin-input" min="0">
+                                <input type="number" id="ap_plyta_scienna_pir_60" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>PIR 100mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_scienna_pir_100" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Styropian 50mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_scienna_sty_50" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Styropian 100mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_scienna_sty_100" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <!-- Płyta dachowa -->
+                        <div class="admin-price-row" style="padding-top:8px;">
+                            <label style="font-weight:600; color:var(--c-accent); font-size:11px; text-transform:uppercase; letter-spacing:1px;">Dachowa</label>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>PIR 40mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_dachowa_pir_40" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>PIR 60mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_dachowa_pir_60" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>PIR 100mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_dachowa_pir_100" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <!-- Płyta działowa -->
+                        <div class="admin-price-row" style="padding-top:8px;">
+                            <label style="font-weight:600; color:var(--c-accent); font-size:11px; text-transform:uppercase; letter-spacing:1px;">Działowa</label>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>PIR 40mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_dzialowa_pir_40" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>PIR 60mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_dzialowa_pir_60" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>PIR 100mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_dzialowa_pir_100" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Styropian 50mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_dzialowa_sty_50" class="admin-input" min="0">
+                                <span class="admin-unit">PLN/m²</span>
+                            </div>
+                        </div>
+                        <div class="admin-price-row">
+                            <label>Styropian 100mm</label>
+                            <div class="admin-input-wrap">
+                                <input type="number" id="ap_plyta_dzialowa_sty_100" class="admin-input" min="0">
                                 <span class="admin-unit">PLN/m²</span>
                             </div>
                         </div>
@@ -297,13 +386,6 @@
                                 <span class="admin-unit">PLN/m²</span>
                             </div>
                         </div>
-                        <div class="admin-price-row">
-                            <label>Ściana Działowa</label>
-                            <div class="admin-input-wrap">
-                                <input type="number" id="ap_scionaPerMeter" class="admin-input" min="0">
-                                <span class="admin-unit">PLN/mb</span>
-                            </div>
-                        </div>
                         <!-- Transport per województwo -->
                         <div class="admin-price-row" style="flex-direction:column; align-items:stretch; gap:8px; padding: 8px 0;">
                             <label style="font-size:12px; font-weight:700; color:var(--c-accent); text-transform:uppercase; letter-spacing:1px;">Transport wg województwa</label>
@@ -348,6 +430,6 @@
         </div><!-- /admin-body-wrap -->
     </div><!-- /admin-panel -->
 
-<script type="module" src="admin.js?v=2.6"></script>
+<script type="module" src="admin.js?v=2.7"></script>
 </body>
 </html>

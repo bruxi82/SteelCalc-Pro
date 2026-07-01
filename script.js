@@ -30,9 +30,16 @@ const auth = getAuth(app);
 
 // ფალბექ ფასები — Firebase-ის ჩატვირთვამდე გამოიყენება
 let PRICES = {
-    p1_rate: 750, p2_rate: 680,
+    // Płyty ścienne
+    plyta_scienna_pir_40: 0, plyta_scienna_pir_60: 0, plyta_scienna_pir_100: 0,
+    plyta_scienna_sty_50: 0, plyta_scienna_sty_100: 0,
+    // Płyty dachowe
+    plyta_dachowa_pir_40: 0, plyta_dachowa_pir_60: 0, plyta_dachowa_pir_100: 0,
+    // Płyty działowe
+    plyta_dzialowa_pir_40: 0, plyta_dzialowa_pir_60: 0, plyta_dzialowa_pir_100: 0,
+    plyta_dzialowa_sty_50: 0, plyta_dzialowa_sty_100: 0,
     konstr_ocynk: 0, konstr_ral: 0, konstr_ral_mat: 0, wykon_drewno: 0,
-    nadwymiar: 15, okucia: 700, scionaPerMeter: 350,
+    nadwymiar: 15, okucia: 700,
     kratownica: 0, slup: 0, filc_rate: 12,
     bramaUchylna: 1100, bramaDwu: 1100, okno: 600, napedCame: 950,
     drzwiBlaszane: 0, drzwiEco: 0, drzwiGerda: 0, drzwiMtbram: 0,
@@ -185,8 +192,6 @@ function injectTypDachuSelect() {
 function fillPriceDisplays(m2) {
     // სტატიკური ფასების ველები
     const map = {
-        'price_p1':    m2 * PRICES.p1_rate,
-        'price_p2':    m2 * PRICES.p2_rate,
         'price_p3':    PRICES.konstr_ocynk,
         'price_p4':    PRICES.konstr_ral,
         'price_p5':    PRICES.konstr_ral_mat,
@@ -246,13 +251,39 @@ function runCalc() {
         }
     });
 
-    // ── Ściana działowa ──
-    const sMeters = getNum('sciana_m');
-    const sTotal  = sMeters * PRICES.scionaPerMeter;
-    setVal('sciana_res', Math.round(sTotal));
-    if (sMeters > 0) {
-        ySum += sTotal;
-        pdfItems.push(`Ściana działowa: ${sMeters} mb`);
+    // ── Płyta ścienna — 4 ściany × wysokość ──
+    const sciennaKey   = $('sel_plyta_scienna')?.value;
+    const sciennaPrice = sciennaKey ? (PRICES[sciennaKey] || 0) : 0;
+    const sciennaM2    = ((sz * 2) + (gl * 2)) * (hCm / 100);
+    const sciennaTotal = sciennaM2 * sciennaPrice;
+    setVal('res_plyta_scienna', Math.round(sciennaTotal));
+    if (sciennaKey && sciennaPrice > 0) {
+        ySum += sciennaTotal;
+        pdfItems.push(`Płyta ścienna (${$('sel_plyta_scienna').options[$('sel_plyta_scienna').selectedIndex]?.text}): ${sciennaM2.toFixed(1)} m²`);
+    }
+
+    // ── Płyta dachowa — (sz+0.70) × (gl+0.70) ──
+    const dachowaKey   = $('sel_plyta_dachowa')?.value;
+    const dachowaPrice = dachowaKey ? (PRICES[dachowaKey] || 0) : 0;
+    const dachowaM2    = (sz + 0.70) * (gl + 0.70);
+    const dachowaTotal = dachowaM2 * dachowaPrice;
+    setVal('res_plyta_dachowa', Math.round(dachowaTotal));
+    if (dachowaKey && dachowaPrice > 0) {
+        ySum += dachowaTotal;
+        pdfItems.push(`Płyta dachowa (${$('sel_plyta_dachowa').options[$('sel_plyta_dachowa').selectedIndex]?.text}): ${dachowaM2.toFixed(1)} m²`);
+    }
+
+    // ── Płyta działowa — mb × (h/100) ──
+    const dzialKey    = $('sel_plyta_dzialowa')?.value;
+    const dzialPrice  = dzialKey ? (PRICES[dzialKey] || 0) : 0;
+    const dzialH      = getNum('inp_dzialowa_h') / 100;
+    const dzialMb     = getNum('inp_dzialowa_mb');
+    const dzialM2     = dzialH * dzialMb;
+    const dzialTotal  = dzialM2 * dzialPrice;
+    setVal('res_plyta_dzialowa', Math.round(dzialTotal));
+    if (dzialKey && dzialPrice > 0 && dzialM2 > 0) {
+        ySum += dzialTotal;
+        pdfItems.push(`Płyta działowa (${$('sel_plyta_dzialowa').options[$('sel_plyta_dzialowa').selectedIndex]?.text}): ${dzialM2.toFixed(1)} m²`);
     }
 
     // ── Kratownica / Słup (rozliczane na bazie, jak konstrukcja) ──

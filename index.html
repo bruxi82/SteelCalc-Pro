@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Konfigurator Wyceny</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=11">
+    <link rel="stylesheet" href="style.css?v=12">
 
 </head>
 <body>
@@ -87,21 +87,59 @@
                 </h2>
 
                 <div class="option-group">
-                    <div class="option-row">
-                        <label class="option-label" for="cb_p1">
-                            <input type="checkbox" id="cb_p1" class="y-check calc-trigger" data-label="Płyta Obornicka 10cm">
-                            <span class="option-check"></span>
-                            <span class="option-text">Płyta Obornicka <strong>10cm</strong></span>
-                        </label>
-                        <input type="number" id="price_p1" class="price-input" readonly>
+                    <div class="option-row composite" style="align-items:flex-end;">
+                        <div style="display:flex; flex-direction:column; gap:3px; flex:1;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Płyta ścienna</span>
+                            <select id="sel_plyta_scienna" class="panel-select calc-trigger">
+                                <option value="">— brak —</option>
+                                <option value="plyta_scienna_pir_40">PIR 40mm</option>
+                                <option value="plyta_scienna_pir_60">PIR 60mm</option>
+                                <option value="plyta_scienna_pir_100">PIR 100mm</option>
+                                <option value="plyta_scienna_sty_50">Styropian 50mm</option>
+                                <option value="plyta_scienna_sty_100">Styropian 100mm</option>
+                            </select>
+                        </div>
+                        <input type="number" id="res_plyta_scienna" value="0" class="price-input price-result" readonly>
                     </div>
-                    <div class="option-row">
-                        <label class="option-label" for="cb_p2">
-                            <input type="checkbox" id="cb_p2" class="y-check calc-trigger" data-label="Płyta Obornicka 5cm">
-                            <span class="option-check"></span>
-                            <span class="option-text">Płyta Obornicka <strong>5cm</strong></span>
-                        </label>
-                        <input type="number" id="price_p2" class="price-input" readonly>
+                    <div class="option-row composite" style="align-items:flex-end;">
+                        <div style="display:flex; flex-direction:column; gap:3px; flex:1;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Płyta dachowa</span>
+                            <select id="sel_plyta_dachowa" class="panel-select calc-trigger">
+                                <option value="">— brak —</option>
+                                <option value="plyta_dachowa_pir_40">PIR 40mm</option>
+                                <option value="plyta_dachowa_pir_60">PIR 60mm</option>
+                                <option value="plyta_dachowa_pir_100">PIR 100mm</option>
+                            </select>
+                        </div>
+                        <input type="number" id="res_plyta_dachowa" value="0" class="price-input price-result" readonly>
+                    </div>
+                    <div class="option-row composite" style="align-items:flex-end;">
+                        <div style="display:flex; flex-direction:column; gap:3px; flex:1;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Płyta działowa</span>
+                            <select id="sel_plyta_dzialowa" class="panel-select calc-trigger">
+                                <option value="">— brak —</option>
+                                <option value="plyta_dzialowa_pir_40">PIR 40mm</option>
+                                <option value="plyta_dzialowa_pir_60">PIR 60mm</option>
+                                <option value="plyta_dzialowa_pir_100">PIR 100mm</option>
+                                <option value="plyta_dzialowa_sty_50">Styropian 50mm</option>
+                                <option value="plyta_dzialowa_sty_100">Styropian 100mm</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Wysokość</span>
+                            <div class="composite-field">
+                                <input type="number" id="inp_dzialowa_h" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">cm</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Długość</span>
+                            <div class="composite-field">
+                                <input type="number" id="inp_dzialowa_mb" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">mb</span>
+                            </div>
+                        </div>
+                        <input type="number" id="res_plyta_dzialowa" value="0" class="price-input price-result" readonly>
                     </div>
                 </div>
 
@@ -235,17 +273,6 @@
                     <span class="card-num">04</span>
                     Ściana / Bramy / Dodatki
                 </h2>
-
-                <div class="option-row">
-                    <span class="option-text-plain">Ściana działowa</span>
-                    <div class="composite-inputs">
-                        <div class="composite-field">
-                            <input type="number" id="sciana_m" value="0" min="0" class="calc-trigger">
-                            <span class="dim-unit">mb</span>
-                        </div>
-                        <input type="number" id="sciana_res" value="0" class="price-input price-result" readonly>
-                    </div>
-                </div>
 
                 <div class="option-divider"></div>
 
@@ -495,6 +522,6 @@
     </div>
 </div>
 
-<script type="module" src="script.js?v=9"></script>
+<script type="module" src="script.js?v=10"></script>
 </body>
 </html>

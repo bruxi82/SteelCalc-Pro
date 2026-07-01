@@ -369,6 +369,24 @@ body {
     margin: 10px 0;
 }
 
+/* --- Panel selects (Płyta ścienna / dachowa / działowa) --- */
+.panel-select {
+    width: 100%;
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-input);
+    color: var(--c-text);
+    padding: 8px 10px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.panel-select:focus {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px var(--c-accent-dim);
+}
+
 /* --- 11. Dynamic Door Rows --- */
 #dynamic-doors-container {
     display: flex;
