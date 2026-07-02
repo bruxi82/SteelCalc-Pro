@@ -571,7 +571,44 @@ function initDoorSystem() {
     });
 }
 
+// ════════════════════════════════════════════════════════════
+//  8c. PANEL LOCK — Typ Konstrukcji odblokowany po wyborze dachu
+// ════════════════════════════════════════════════════════════
 
+function initPanelLock() {
+    const PANEL_IDS = [
+        'sel_plyta_scienna', 'sel_plyta_dachowa', 'sel_plyta_dzialowa',
+        'inp_dzialowa_h', 'inp_dzialowa_mb'
+    ];
+
+    function setPanelLock(locked) {
+        PANEL_IDS.forEach(id => {
+            const el = $(id);
+            if (el) el.disabled = locked;
+        });
+        const badge = $('konstrukcji-lock-badge');
+        if (badge) badge.style.display = locked ? '' : 'none';
+    }
+
+    // საწყისი მდგომარეობა — ჩაკეტილი (HTML-ში disabled უკვე აქვს)
+    setPanelLock(true);
+
+    // typ_dachu სელექტი injectTypDachuSelect()-ით ივსება async,
+    // ამიტომ delegation-ით ვიჭერთ document დონეზე
+    document.addEventListener('change', e => {
+        if (e.target.id !== 'typ_dachu') return;
+        const hasValue = e.target.value !== '';
+        setPanelLock(!hasValue);
+        if (!hasValue) {
+            ['sel_plyta_scienna', 'sel_plyta_dachowa', 'sel_plyta_dzialowa'].forEach(id => {
+                const el = $(id);
+                if (el) el.value = '';
+            });
+            ['res_plyta_scienna', 'res_plyta_dachowa', 'res_plyta_dzialowa'].forEach(id => setVal(id, 0));
+        }
+        runCalc();
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, async (user) => {
@@ -585,6 +622,7 @@ document.addEventListener('DOMContentLoaded', () => {
         injectDynamicItems();
         injectTypDachuSelect();
         initDoorSystem();
+        initPanelLock();
 
         document.querySelectorAll('.calc-trigger').forEach(el => {
             el.addEventListener(

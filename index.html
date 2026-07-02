@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Konfigurator Wyceny</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=13">
+    <link rel="stylesheet" href="style.css?v=14">
 
 </head>
 <body>
@@ -90,18 +90,85 @@
                 </p>
             </section>
 
-            <!-- 02: Typ Konstrukcji -->
+            <!-- 02: Typ Dachu -->
             <section class="card">
                 <h2 class="card-title">
                     <span class="card-num">02</span>
+                    Typ Dachu
+                </h2>
+                <div class="option-group">
+                    <!-- Typ Dachu select + auto price -->
+                    <div class="option-row">
+                        <select id="typ_dachu" class="calc-trigger price-select" style="flex:1; min-width:0;">
+                            <option value="">— Wybierz typ dachu —</option>
+                        </select>
+                        <input type="number" id="price_dwu" class="price-input" readonly>
+                    </div>
+                    <div class="option-row composite">
+                        <span class="option-text-plain">Kratownica</span>
+                        <div class="composite-inputs">
+                            <div class="composite-field">
+                                <input type="number" id="qty_kratownica" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">szt</span>
+                            </div>
+                            <input type="number" id="res_kratownica" value="0" class="price-input price-result" readonly>
+                        </div>
+                    </div>
+                    <div class="option-row composite">
+                        <span class="option-text-plain">Słup</span>
+                        <div class="composite-inputs">
+                            <div class="composite-field">
+                                <input type="number" id="qty_slup" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">mb</span>
+                            </div>
+                            <input type="number" id="res_slup" value="0" class="price-input price-result" readonly>
+                        </div>
+                    </div>
+                    <div class="option-row">
+                        <label class="option-label" for="cb_filc">
+                            <input type="checkbox" id="cb_filc" class="y-check calc-trigger" data-label="Folia / Filc">
+                            <span class="option-check"></span>
+                            <span class="option-text">Folia / Filc</span>
+                        </label>
+                        <input type="number" id="price_filc" class="price-input" readonly>
+                    </div>
+                    <div class="option-row">
+                        <label class="option-label" for="cb_blach">
+                            <input type="checkbox" id="cb_blach" class="w-check calc-trigger" data-label="Blachodachówka">
+                            <span class="option-check"></span>
+                            <span class="option-text">Blachodachówka</span>
+                        </label>
+                        <input type="number" id="price_blach" class="price-input" readonly>
+                    </div>
+                    <!-- System rynnowy: checkbox + auto price from typ_dachu -->
+                    <div class="option-row">
+                        <label class="option-label" for="cb_ryn">
+                            <input type="checkbox" id="cb_ryn" class="calc-trigger" data-label="System rynnowy">
+                            <span class="option-check"></span>
+                            <span class="option-text">System rynnowy
+                                <span class="option-badge" id="ryn_meters_badge"></span>
+                            </span>
+                        </label>
+                        <input type="number" id="price_ryn" class="price-input" readonly>
+                    </div>
+                </div>
+                <!-- Dynamic items injected by script.js -->
+                <div id="dyn-section-dach"></div>
+            </section>
+
+            <!-- 03: Typ Konstrukcji -->
+            <section class="card" id="section-konstrukcji">
+                <h2 class="card-title">
+                    <span class="card-num">03</span>
                     Typ Konstrukcji
+                    <span id="konstrukcji-lock-badge" style="font-size:10px; font-weight:500; color:var(--c-text-muted); margin-left:auto; letter-spacing:0.5px;">🔒 najpierw wybierz typ dachu</span>
                 </h2>
 
                 <div class="option-group">
                     <div class="option-row composite" style="align-items:flex-end;">
                         <div style="display:flex; flex-direction:column; gap:3px; flex:1;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Płyta ścienna</span>
-                            <select id="sel_plyta_scienna" class="panel-select calc-trigger">
+                            <select id="sel_plyta_scienna" class="panel-select calc-trigger" disabled>
                                 <option value="">— brak —</option>
                                 <option value="plyta_scienna_pir_40">PIR 40mm</option>
                                 <option value="plyta_scienna_pir_60">PIR 60mm</option>
@@ -115,7 +182,7 @@
                     <div class="option-row composite" style="align-items:flex-end;">
                         <div style="display:flex; flex-direction:column; gap:3px; flex:1;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Płyta dachowa</span>
-                            <select id="sel_plyta_dachowa" class="panel-select calc-trigger">
+                            <select id="sel_plyta_dachowa" class="panel-select calc-trigger" disabled>
                                 <option value="">— brak —</option>
                                 <option value="plyta_dachowa_pir_40">PIR 40mm</option>
                                 <option value="plyta_dachowa_pir_60">PIR 60mm</option>
@@ -127,7 +194,7 @@
                     <div class="option-row composite" style="align-items:flex-end;">
                         <div style="display:flex; flex-direction:column; gap:3px; flex:1;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Płyta działowa</span>
-                            <select id="sel_plyta_dzialowa" class="panel-select calc-trigger">
+                            <select id="sel_plyta_dzialowa" class="panel-select calc-trigger" disabled>
                                 <option value="">— brak —</option>
                                 <option value="plyta_dzialowa_pir_40">PIR 40mm</option>
                                 <option value="plyta_dzialowa_pir_60">PIR 60mm</option>
@@ -139,14 +206,14 @@
                         <div style="display:flex; flex-direction:column; gap:3px;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Wysokość</span>
                             <div class="composite-field">
-                                <input type="number" id="inp_dzialowa_h" value="0" min="0" class="calc-trigger">
+                                <input type="number" id="inp_dzialowa_h" value="0" min="0" class="calc-trigger" disabled>
                                 <span class="dim-unit">cm</span>
                             </div>
                         </div>
                         <div style="display:flex; flex-direction:column; gap:3px;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Długość</span>
                             <div class="composite-field">
-                                <input type="number" id="inp_dzialowa_mb" value="0" min="0" class="calc-trigger">
+                                <input type="number" id="inp_dzialowa_mb" value="0" min="0" class="calc-trigger" disabled>
                                 <span class="dim-unit">mb</span>
                             </div>
                         </div>
@@ -204,78 +271,12 @@
                     <div class="option-row">
                         <label class="option-label" for="cb_okuc">
                             <input type="checkbox" id="cb_okuc" class="y-check calc-trigger" data-label="Okucia blacharskie">
-                            <span class="option-check"></span>
+                                <span class="option-check"></span>
                             <span class="option-text">Okucia blacharskie</span>
                         </label>
                         <input type="number" id="price_okuc" class="price-input" readonly>
                     </div>
                 </div>
-            </section>
-
-            <!-- 03: Dach -->
-            <section class="card">
-                <h2 class="card-title">
-                    <span class="card-num">03</span>
-                    Typ Dachu
-                </h2>
-                <div class="option-group">
-                    <!-- Typ Dachu select + auto price -->
-                    <div class="option-row">
-                        <select id="typ_dachu" class="calc-trigger price-select" style="flex:1; min-width:0;">
-                            <option value="">— Typ Dachu —</option>
-                        </select>
-                        <input type="number" id="price_dwu" class="price-input" readonly>
-                    </div>
-                    <div class="option-row composite">
-                        <span class="option-text-plain">Kratownica</span>
-                        <div class="composite-inputs">
-                            <div class="composite-field">
-                                <input type="number" id="qty_kratownica" value="0" min="0" class="calc-trigger">
-                                <span class="dim-unit">szt</span>
-                            </div>
-                            <input type="number" id="res_kratownica" value="0" class="price-input price-result" readonly>
-                        </div>
-                    </div>
-                    <div class="option-row composite">
-                        <span class="option-text-plain">Słup</span>
-                        <div class="composite-inputs">
-                            <div class="composite-field">
-                                <input type="number" id="qty_slup" value="0" min="0" class="calc-trigger">
-                                <span class="dim-unit">mb</span>
-                            </div>
-                            <input type="number" id="res_slup" value="0" class="price-input price-result" readonly>
-                        </div>
-                    </div>
-                    <div class="option-row">
-                        <label class="option-label" for="cb_filc">
-                            <input type="checkbox" id="cb_filc" class="y-check calc-trigger" data-label="Folia / Filc">
-                            <span class="option-check"></span>
-                            <span class="option-text">Folia / Filc</span>
-                        </label>
-                        <input type="number" id="price_filc" class="price-input" readonly>
-                    </div>
-                    <div class="option-row">
-                        <label class="option-label" for="cb_blach">
-                            <input type="checkbox" id="cb_blach" class="w-check calc-trigger" data-label="Blachodachówka">
-                            <span class="option-check"></span>
-                            <span class="option-text">Blachodachówka</span>
-                        </label>
-                        <input type="number" id="price_blach" class="price-input" readonly>
-                    </div>
-                    <!-- System rynnowy: checkbox + auto price from typ_dachu -->
-                    <div class="option-row">
-                        <label class="option-label" for="cb_ryn">
-                            <input type="checkbox" id="cb_ryn" class="calc-trigger" data-label="System rynnowy">
-                            <span class="option-check"></span>
-                            <span class="option-text">System rynnowy
-                                <span class="option-badge" id="ryn_meters_badge"></span>
-                            </span>
-                        </label>
-                        <input type="number" id="price_ryn" class="price-input" readonly>
-                    </div>
-                </div>
-                <!-- Dynamic items injected by script.js -->
-                <div id="dyn-section-dach"></div>
             </section>
 
             <!-- 04: Ściana / Bramy / Dodatki -->
@@ -533,6 +534,6 @@
     </div>
 </div>
 
-<script type="module" src="script.js?v=11"></script>
+<script type="module" src="script.js?v=12"></script>
 </body>
 </html>

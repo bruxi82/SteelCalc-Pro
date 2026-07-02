@@ -369,6 +369,14 @@ body {
     margin: 10px 0;
 }
 
+/* --- Panel selects disabled state --- */
+.panel-select:disabled,
+.composite-field input:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+    background: var(--c-surface);
+}
+
 /* --- Panel selects (Płyta ścienna / dachowa / działowa) --- */
 .panel-select {
     width: 100%;
