@@ -202,7 +202,6 @@ function fillPriceDisplays(m2) {
         'price_reg':   PRICES.dostawa,
         'price_ryn':   0,   // → runCalc-ში განახლდება
         'price_kot':   PRICES.kotwienie,
-        'price_seg':   PRICES.brama_segm,
         'price_blach': PRICES.blachodach,
         // price_dwu  → runCalc-ში (typDachuOptions-დან)
         // price_tr   → runCalc-ში (transport combo-დან)
@@ -343,11 +342,11 @@ function runCalc() {
     // ── Brama uchylna — szerokość × wysokość → m² × cena/m² × ilość ──
     const uchSzCm  = getNum('brama_uch_szer');
     const uchWyCm  = getNum('brama_uch_wys');
-    const uchQty   = getInt('qty_b_uch_new') || 1;
+    const uchQty   = getInt('qty_b_uch_new');
     const uchM2    = (uchSzCm / 100) * (uchWyCm / 100);
     const uchTotal = uchM2 * PRICES.bramaUchylna * uchQty;
     setVal('res_brama_uch', Math.round(uchTotal));
-    if (uchM2 > 0) {
+    if (uchM2 > 0 && uchQty > 0) {
         wSum += uchTotal;
         pdfItems.push(`Brama uchylna: ${uchSzCm}×${uchWyCm} cm × ${uchQty} szt. (${(uchM2 * uchQty).toFixed(2)} m²)`);
     }
@@ -355,13 +354,25 @@ function runCalc() {
     // ── Brama dwuskrzydłowa — szerokość × wysokość → m² × cena/m² × ilość ──
     const dwuSzCm  = getNum('brama_dwu_szer');
     const dwuWyCm  = getNum('brama_dwu_wys');
-    const dwuQty   = getInt('qty_b_dwu_new') || 1;
+    const dwuQty   = getInt('qty_b_dwu_new');
     const dwuM2    = (dwuSzCm / 100) * (dwuWyCm / 100);
     const dwuTotal = dwuM2 * PRICES.bramaDwu * dwuQty;
     setVal('res_brama_dwu', Math.round(dwuTotal));
-    if (dwuM2 > 0) {
+    if (dwuM2 > 0 && dwuQty > 0) {
         wSum += dwuTotal;
         pdfItems.push(`Brama dwuskrzydłowa: ${dwuSzCm}×${dwuWyCm} cm × ${dwuQty} szt. (${(dwuM2 * dwuQty).toFixed(2)} m²)`);
+    }
+
+    // ── Brama Segmentowa — szerokość × wysokość → m² × cena/m² × ilość ──
+    const segSzCm  = getNum('brama_seg_szer');
+    const segWyCm  = getNum('brama_seg_wys');
+    const segQty   = getInt('qty_b_seg_new');
+    const segM2    = (segSzCm / 100) * (segWyCm / 100);
+    const segTotal = segM2 * PRICES.brama_segm * segQty;
+    setVal('res_brama_seg', Math.round(segTotal));
+    if (segM2 > 0 && segQty > 0) {
+        wSum += segTotal;
+        pdfItems.push(`Brama Segmentowa: ${segSzCm}×${segWyCm} cm × ${segQty} szt. (${(segM2 * segQty).toFixed(2)} m²)`);
     }
 
     // ── რაოდენობის პოზიციები (Okno, Napęd) ──

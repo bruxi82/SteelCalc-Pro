@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Konfigurator Wyceny</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="stylesheet" href="style.css?v=15">
 
 </head>
 <body>
@@ -294,21 +294,21 @@
                         <div style="display:flex; flex-direction:column; gap:3px;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Szerokość</span>
                             <div class="composite-field">
-                                <input type="number" id="brama_uch_szer" value="0" min="0" class="calc-trigger">
+                                <input type="number" id="brama_uch_szer" value="300" min="0" class="calc-trigger">
                                 <span class="dim-unit">cm</span>
                             </div>
                         </div>
                         <div style="display:flex; flex-direction:column; gap:3px;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Wysokość</span>
                             <div class="composite-field">
-                                <input type="number" id="brama_uch_wys" value="0" min="0" class="calc-trigger">
+                                <input type="number" id="brama_uch_wys" value="213" min="0" class="calc-trigger">
                                 <span class="dim-unit">cm</span>
                             </div>
                         </div>
                         <div style="display:flex; flex-direction:column; gap:3px;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Ilość</span>
                             <div class="composite-field">
-                                <input type="number" id="qty_b_uch_new" value="1" min="1" class="calc-trigger">
+                                <input type="number" id="qty_b_uch_new" value="0" min="0" class="calc-trigger">
                                 <span class="dim-unit">szt</span>
                             </div>
                         </div>
@@ -321,25 +321,52 @@
                         <div style="display:flex; flex-direction:column; gap:3px;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Szerokość</span>
                             <div class="composite-field">
-                                <input type="number" id="brama_dwu_szer" value="0" min="0" class="calc-trigger">
+                                <input type="number" id="brama_dwu_szer" value="300" min="0" class="calc-trigger">
                                 <span class="dim-unit">cm</span>
                             </div>
                         </div>
                         <div style="display:flex; flex-direction:column; gap:3px;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Wysokość</span>
                             <div class="composite-field">
-                                <input type="number" id="brama_dwu_wys" value="0" min="0" class="calc-trigger">
+                                <input type="number" id="brama_dwu_wys" value="200" min="0" class="calc-trigger">
                                 <span class="dim-unit">cm</span>
                             </div>
                         </div>
                         <div style="display:flex; flex-direction:column; gap:3px;">
                             <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Ilość</span>
                             <div class="composite-field">
-                                <input type="number" id="qty_b_dwu_new" value="1" min="1" class="calc-trigger">
+                                <input type="number" id="qty_b_dwu_new" value="0" min="0" class="calc-trigger">
                                 <span class="dim-unit">szt</span>
                             </div>
                         </div>
                         <input type="number" id="res_brama_dwu" value="0" class="price-input price-result" readonly>
+                    </div>
+                </div>
+                <div class="option-row composite" style="align-items:flex-end;">
+                    <span class="option-text-plain">Brama Segmentowa</span>
+                    <div class="composite-inputs">
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Szerokość</span>
+                            <div class="composite-field">
+                                <input type="number" id="brama_seg_szer" value="500" min="0" class="calc-trigger">
+                                <span class="dim-unit">cm</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Wysokość</span>
+                            <div class="composite-field">
+                                <input type="number" id="brama_seg_wys" value="200" min="0" class="calc-trigger">
+                                <span class="dim-unit">cm</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <span style="font-size:9px; color:var(--c-text-muted); text-transform:uppercase; letter-spacing:0.5px;">Ilość</span>
+                            <div class="composite-field">
+                                <input type="number" id="qty_b_seg_new" value="0" min="0" class="calc-trigger">
+                                <span class="dim-unit">szt</span>
+                            </div>
+                        </div>
+                        <input type="number" id="res_brama_seg" value="0" class="price-input price-result" readonly>
                     </div>
                 </div>
                 <div class="option-row composite">
@@ -397,14 +424,6 @@
                 <div class="option-divider"></div>
 
                 <div class="option-group">
-                    <div class="option-row">
-                        <label class="option-label" for="cb_seg">
-                            <input type="checkbox" id="cb_seg" class="w-check calc-trigger" data-label="Brama Segmentowa">
-                            <span class="option-check"></span>
-                            <span class="option-text">Brama Segmentowa</span>
-                        </label>
-                        <input type="number" id="price_seg" class="price-input" readonly>
-                    </div>
                     <div class="option-row">
                         <label class="option-label" for="cb_kot">
                             <input type="checkbox" id="cb_kot" class="w-check calc-trigger" data-label="Kotwienie do podłoża">
@@ -534,6 +553,6 @@
     </div>
 </div>
 
-<script type="module" src="script.js?v=12"></script>
+<script type="module" src="script.js?v=13"></script>
 </body>
 </html>
