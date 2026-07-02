@@ -6,7 +6,7 @@
     <title>SteelCalc Pro | Konfigurator Wyceny</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="style.css?v=13">
 
 </head>
 <body>
@@ -75,8 +75,19 @@
                             <span class="dim-unit">cm</span>
                         </div>
                     </div>
+                    <div class="dim-sep" style="opacity:0.3;">|</div>
+                    <div class="dim-field">
+                        <label for="v_kat_dachu">Kąt dachu</label>
+                        <div class="dim-input-wrap">
+                            <input type="number" id="v_kat_dachu" value="12" min="0" max="45" class="calc-trigger">
+                            <span class="dim-unit">°</span>
+                        </div>
+                    </div>
                 </div>
                 <p class="dim-summary" id="dim-summary">Powierzchnia: 48 m²</p>
+                <p style="font-size:11px; color:var(--c-text-muted); margin-top:4px;">
+                    Obliczona wysokość max: <span id="disp_calculated_h_max" style="color:var(--c-accent); font-weight:600;">— cm</span>
+                </p>
             </section>
 
             <!-- 02: Typ Konstrukcji -->
@@ -522,6 +533,6 @@
     </div>
 </div>
 
-<script type="module" src="script.js?v=10"></script>
+<script type="module" src="script.js?v=11"></script>
 </body>
 </html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SteelCalc Pro | Pomoc</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=12">
+    <style>
+        /* ── Help page overrides ── */
+        .help-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 20px 80px;
+        }
+
+        .help-hero {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .help-hero h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--c-text);
+            margin-bottom: 8px;
+        }
+
+        .help-hero p {
+            color: var(--c-text-muted);
+            font-size: 14px;
+        }
+
+        /* Tab switcher */
+        .help-tabs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 36px;
+        }
+
+        .help-tab {
+            padding: 10px 28px;
+            border-radius: var(--r-btn);
+            border: 1px solid var(--c-border);
+            background: var(--c-surface);
+            color: var(--c-text-muted);
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .help-tab:hover { border-color: var(--c-accent); color: var(--c-accent); }
+
+        .help-tab.active {
+            background: var(--c-accent);
+            border-color: var(--c-accent);
+            color: #000;
+        }
+
+        /* Section visibility */
+        .help-section { display: none; }
+        .help-section.active { display: block; }
+
+        /* Cards */
+        .help-card {
+            background: var(--c-surface);
+            border: 1px solid var(--c-border);
+            border-radius: var(--r-card);
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .help-card-title {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--c-accent);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .help-card-title .num {
+            background: var(--c-accent-dim);
+            color: var(--c-accent);
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 12px;
+        }
+
+        .help-card h3 {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--c-text);
+            margin: 0 0 10px;
+        }
+
+        .help-card p {
+            font-size: 13px;
+            color: var(--c-text-dim);
+            line-height: 1.7;
+            margin: 0 0 8px;
+        }
+
+        .help-card p:last-child { margin-bottom: 0; }
+
+        .help-steps {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .help-steps li {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 13px;
+            color: var(--c-text-dim);
+            line-height: 1.6;
+        }
+
+        .step-num {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--c-accent-dim);
+            color: var(--c-accent);
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1px;
+        }
+
+        .help-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: var(--font-display);
+            letter-spacing: 0.5px;
+            margin-right: 4px;
+        }
+
+        .tag-y {
+            background: rgba(34,197,94,0.12);
+            color: var(--c-green);
+            border: 1px solid rgba(34,197,94,0.3);
+        }
+
+        .tag-w {
+            background: rgba(240,165,0,0.12);
+            color: var(--c-accent);
+            border: 1px solid rgba(240,165,0,0.3);
+        }
+
+        .tag-info {
+            background: var(--c-surface-2);
+            color: var(--c-text-muted);
+            border: 1px solid var(--c-border);
+        }
+
+        .help-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .help-table th {
+            text-align: left;
+            padding: 8px 10px;
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--c-text-muted);
+            border-bottom: 1px solid var(--c-border);
+        }
+
+        .help-table td {
+            padding: 9px 10px;
+            color: var(--c-text-dim);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        .help-table tr:last-child td { border-bottom: none; }
+
+        .help-table code {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            background: var(--c-surface-2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--c-accent);
+        }
+
+        .help-divider {
+            height: 1px;
+            background: var(--c-border);
+            margin: 20px 0;
+        }
+
+        .help-note {
+            background: rgba(240,165,0,0.08);
+            border: 1px solid rgba(240,165,0,0.25);
+            border-radius: var(--r-input);
+            padding: 12px 16px;
+            font-size: 12px;
+            color: var(--c-text-muted);
+            line-height: 1.6;
+            margin-top: 12px;
+        }
+
+        .help-note strong { color: var(--c-accent); }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--c-text-muted);
+            font-size: 13px;
+            text-decoration: none;
+            margin-bottom: 28px;
+            transition: color 0.18s ease;
+        }
+
+        .back-link:hover { color: var(--c-accent); }
+    </style>
+</head>
+<body>
+
+<header class="app-header">
+    <div class="brand">
+        <span class="brand-icon">⚙</span>
+        <div>
+            <div class="brand-name">SteelCalc Pro</div>
+            <div class="brand-sub">Pomoc / Instrukcja</div>
+        </div>
+    </div>
+    <div style="display:flex; gap:8px;">
+        <a href="index.html" class="admin-link" title="Kalkulator">🧮</a>
+        <a href="admin.html" class="admin-link" title="Panel admina">⚙</a>
+    </div>
+</header>
+
+<div class="help-wrap">
+
+    <div class="help-hero">
+        <h1>Centrum Pomocy</h1>
+        <p>Instrukcja obsługi dla administratora i operatora kalkulatora</p>
+    </div>
+
+    <div class="help-tabs">
+        <button class="help-tab active" onclick="showTab('admin')">⚙ Panel Admina</button>
+        <button class="help-tab" onclick="showTab('user')">🧮 Kalkulator</button>
+    </div>
+
+    <!-- ════════════════════════════════════
+         ADMIN SECTION
+    ════════════════════════════════════ -->
+    <div id="tab-admin" class="help-section active">
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">01</span> Logowanie do panelu admina</div>
+            <ul class="help-steps">
+                <li><span class="step-num">1</span>Wejdź na adres <strong>admin.html</strong> lub kliknij ikonę ⚙ w prawym górnym rogu kalkulatora.</li>
+                <li><span class="step-num">2</span>Wpisz adres e-mail i hasło administratora, następnie kliknij <strong>Zaloguj się</strong>.</li>
+                <li><span class="step-num">3</span>Po zalogowaniu zobaczysz panel z kartami cenników. Możesz teraz edytować ceny.</li>
+                <li><span class="step-num">4</span>Po zakończeniu kliknij <strong>Zapisz zmiany</strong> na dole strony — dane zostają zapisane do Firebase i natychmiast obowiązują w kalkulatorze.</li>
+            </ul>
+            <div class="help-note"><strong>Uwaga:</strong> Zmiany są widoczne w kalkulatorze dopiero po zapisaniu. Bez kliknięcia „Zapisz" dane nie trafiają do bazy.</div>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">02</span> Karta: Płyty Konstrukcyjne</div>
+            <p>Tutaj ustawiasz ceny za m² dla wszystkich typów płyt izolacyjnych w podziale na trzy grupy:</p>
+            <table class="help-table">
+                <tr><th>Grupa</th><th>Opcje</th><th>Zastosowanie</th></tr>
+                <tr><td><strong>Ścienna</strong></td><td>PIR 40 / 60 / 100mm, Styropian 50 / 100mm</td><td>Kalkulator liczy 4 ściany: <code>((sz×2 + gl×2) × wys)</code></td></tr>
+                <tr><td><strong>Dachowa</strong></td><td>PIR 40 / 60 / 100mm</td><td>Z okapem 35cm: <code>(sz+0.70) × (gl+0.70)</code></td></tr>
+                <tr><td><strong>Działowa</strong></td><td>PIR 40 / 60 / 100mm, Styropian 50 / 100mm</td><td>Operator podaje wysokość + metry: <code>(h/100) × mb</code></td></tr>
+            </table>
+            <div class="help-note"><strong>Tip:</strong> Ceny płyt wchodzą do sumy bazowej (ySum) — objęte rabatem.</div>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">03</span> Karta: Dach i Pokrycie</div>
+            <table class="help-table">
+                <tr><th>Pole</th><th>Jednostka</th><th>Opis</th></tr>
+                <tr><td>Kratownica</td><td>PLN/szt.</td><td>Cena za sztukę kratownicy — operator podaje ilość</td></tr>
+                <tr><td>Słup</td><td>PLN/mb</td><td>Cena za metr bieżący słupa — operator podaje mb</td></tr>
+                <tr><td>Folia / Filc</td><td>PLN/m²</td><td>Mnożone automatycznie przez powierzchnię (sz×gl)</td></tr>
+                <tr><td>Blachodachówka</td><td>PLN</td><td>Ryczałt — dodawany gdy checkbox zaznaczony</td></tr>
+                <tr><td>System Rynnowy</td><td>PLN/mb</td><td>Fallback gdy dany typ dachu nie ma własnej ceny rynnowej</td></tr>
+            </table>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">04</span> Karta: Typ Dachu</div>
+            <p>Tabela typów dachu — każdy wiersz to jedna opcja w kalkulatorze. Kolumny:</p>
+            <table class="help-table">
+                <tr><th>Kolumna</th><th>Opis</th></tr>
+                <tr><td><strong>Nazwa</strong></td><td>Wyświetlana w selekcie kalkulatora</td></tr>
+                <tr><td><strong>Cena PLN</strong></td><td>Doliczana do ceny bazowej (ySum) po wybraniu tego typu</td></tr>
+                <tr><td><strong>Rynny PLN/mb</strong></td><td>Cena rynnowa specyficzna dla tego dachu. <code>0</code> = używa globalnego „System Rynnowy"</td></tr>
+            </table>
+            <p>Kliknij <strong>+ Dodaj typ</strong> aby dodać nowy, <strong>✕</strong> aby usunąć. Ilość mb rynnowania jest wyliczana automatycznie wg typu (dwuspadowy, tył, lewo/prawo).</p>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">05</span> Karta: Bramy i Akcesoria</div>
+            <table class="help-table">
+                <tr><th>Pole</th><th>Jednostka</th><th>Opis</th></tr>
+                <tr><td>Brama Uchylna</td><td>PLN/m²</td><td>Operator podaje szerokość × wysokość w cm → m² × cena × ilość</td></tr>
+                <tr><td>Brama Dwuskrzydłowa</td><td>PLN/m²</td><td>Identyczna logika, oddzielna cena</td></tr>
+                <tr><td>Brama Segmentowa</td><td>PLN</td><td>Ryczałt przy zaznaczeniu checkboxa</td></tr>
+                <tr><td>Okno PCV (80x60)</td><td>PLN/szt.</td><td>Cena za sztukę okna standardowego</td></tr>
+                <tr><td>Napęd CAME</td><td>PLN/szt.</td><td>Cena za napęd do bramy</td></tr>
+                <tr><td>Drzwi blaszane</td><td>PLN/szt.</td><td>Operator wybiera z listy i podaje ilość</td></tr>
+                <tr><td>Drzwi Eco Basic</td><td>PLN/szt.</td><td>—</td></tr>
+                <tr><td>Drzwi Gerda</td><td>PLN/szt.</td><td>—</td></tr>
+                <tr><td>Drzwi MT-Bram</td><td>PLN/szt.</td><td>—</td></tr>
+            </table>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">06</span> Karta: Logistyka i Montaż</div>
+            <table class="help-table">
+                <tr><th>Pole</th><th>Jednostka</th><th>Opis</th></tr>
+                <tr><td>Nadwymiar wysokości</td><td>PLN/m²</td><td>Doliczany gdy wys. przekracza standard (checkbox w sek. 02)</td></tr>
+                <tr><td>Kotwienie do podłoża</td><td>PLN</td><td>Ryczałt</td></tr>
+                <tr><td>Dostawa regionalna</td><td>PLN</td><td>Ryczałt dla zaznaczonego checkbox „Dostawa"</td></tr>
+                <tr><td>Transport wg województwa</td><td>PLN</td><td>Tabela cen transportu: kolumna „Blachane" i „×4". Operator wybiera województwo w kalkulatorze.</td></tr>
+            </table>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">07</span> Dynamiczne pozycje (+ Dodaj pozycję)</div>
+            <p>W każdej karcie można dodać dowolną liczbę dodatkowych pozycji przyciskiem <strong>+ Dodaj pozycję</strong>. Każda pozycja ma:</p>
+            <ul class="help-steps">
+                <li><span class="step-num">N</span><strong>Nazwa</strong> — wyświetlana w kalkulatorze.</li>
+                <li><span class="step-num">PLN</span><strong>Cena PLN</strong> — wartość.</li>
+                <li><span class="step-num">×</span><strong>Checkbox ×m²</strong> — gdy włączony, cena mnoży się przez powierzchnię (sz×gl).</li>
+            </ul>
+            <div class="help-note"><strong>Tip:</strong> Pozycje z kart <em>card-plyty</em> i <em>card-dach</em> trafiają do sumy bazowej (objętej rabatem). Pozycje z <em>card-akcesoria</em> i <em>card-logistyka</em> — do sumy dodatków.</div>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">08</span> Dodawanie nowego administratora</div>
+            <ul class="help-steps">
+                <li><span class="step-num">1</span>Wejdź na <a href="https://console.firebase.google.com/project/steelcalc-pro-574a5" target="_blank" style="color:var(--c-accent);">Firebase Console</a>.</li>
+                <li><span class="step-num">2</span>Przejdź do <strong>Authentication → Users → Add user</strong>.</li>
+                <li><span class="step-num">3</span>Wpisz e-mail i hasło nowego admina i zapisz.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- ════════════════════════════════════
+         USER SECTION
+    ════════════════════════════════════ -->
+    <div id="tab-user" class="help-section">
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">01</span> Wymiary Konstrukcji</div>
+            <p>Wpisz wszystkie wymiary obiektu <strong>w centymetrach</strong>:</p>
+            <table class="help-table">
+                <tr><th>Pole</th><th>Opis</th><th>Przykład</th></tr>
+                <tr><td>Szerokość</td><td>Szerokość obiektu</td><td><code>600</code> cm = 6 m</td></tr>
+                <tr><td>Głębokość</td><td>Głębokość / długość obiektu</td><td><code>1000</code> cm = 10 m</td></tr>
+                <tr><td>Wysokość</td><td>Wysokość ściany (do okapu)</td><td><code>300</code> cm = 3 m</td></tr>
+            </table>
+            <div class="help-note"><strong>Uwaga:</strong> Powierzchnia (m²) i wszystkie obliczenia są przeliczane automatycznie po każdej zmianie.</div>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">02</span> Typ Konstrukcji — Płyty</div>
+            <p>Wybierz typ płyty z listy dla każdej grupy. Jeśli dana pozycja nie jest potrzebna — zostaw <strong>„— brak —"</strong>.</p>
+            <table class="help-table">
+                <tr><th>Select</th><th>Jak liczy</th></tr>
+                <tr><td><strong>Płyta ścienna</strong></td><td>Automatycznie: obwód 4 ścian × wysokość → m² × cena/m²</td></tr>
+                <tr><td><strong>Płyta dachowa</strong></td><td>Automatycznie: powierzchnia dachu z okapem 35cm × cena/m²</td></tr>
+                <tr><td><strong>Płyta działowa</strong></td><td>Wpisz wysokość (cm) i długość (mb) → m² × cena/m²</td></tr>
+            </table>
+            <p>Poniżej selectów płyt dostępne są checkboxy wykończenia konstrukcji (Ocynkowana, RAL, RAL MAT, Drewnopodobne) — zaznacz odpowiedni.</p>
+            <div class="help-note"><span class="help-tag tag-y">ySum</span> Ceny płyt i konstrukcji są objęte rabatem (wchodzą do sumy bazowej).</div>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">03</span> Typ Dachu</div>
+            <table class="help-table">
+                <tr><th>Element</th><th>Opis</th></tr>
+                <tr><td><strong>Select typ dachu</strong></td><td>Wybierz kształt dachu — cena doliczana automatycznie</td></tr>
+                <tr><td><strong>Kratownica</strong></td><td>Wpisz ilość sztuk</td></tr>
+                <tr><td><strong>Słup</strong></td><td>Wpisz metry bieżące</td></tr>
+                <tr><td><strong>Folia / Filc</strong></td><td>Checkbox — mnożone przez pow. dachu</td></tr>
+                <tr><td><strong>Blachodachówka</strong></td><td>Checkbox — ryczałt</td></tr>
+                <tr><td><strong>System rynnowy</strong></td><td>Checkbox — mb wyliczane auto wg typu dachu, widoczne jako badge</td></tr>
+            </table>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">04</span> Ściana / Bramy / Dodatki</div>
+
+            <h3>Bramy</h3>
+            <ul class="help-steps">
+                <li><span class="step-num">↔</span>Wpisz <strong>Szerokość</strong> i <strong>Wysokość</strong> bramy w cm.</li>
+                <li><span class="step-num">#</span>Wpisz <strong>Ilość</strong> sztuk (domyślnie 1).</li>
+                <li><span class="step-num">$</span>Cena = m² × cena/m² × ilość. Wynik widoczny w polu po prawej.</li>
+            </ul>
+            <p style="margin-top:8px;">Dostępne: <strong>Brama uchylna</strong> i <strong>Brama dwuskrzydłowa</strong> — każda ma własne pola i własną cenę z admina.</p>
+
+            <div class="help-divider"></div>
+
+            <h3>Drzwi (lista dynamiczna)</h3>
+            <ul class="help-steps">
+                <li><span class="step-num">1</span>Z listy wybierz typ drzwi (Blaszane / Eco Basic / Gerda / MT-Bram).</li>
+                <li><span class="step-num">2</span>Wpisz ilość sztuk (0 = nie doliczane).</li>
+                <li><span class="step-num">3</span>Kliknij <strong>+ Dodaj drzwi</strong> aby dodać kolejny typ. Kliknij <strong>✕</strong> aby usunąć wiersz.</li>
+            </ul>
+
+            <div class="help-divider"></div>
+
+            <h3>Pozostałe pozycje</h3>
+            <table class="help-table">
+                <tr><th>Pole</th><th>Opis</th></tr>
+                <tr><td>Okno PCV (80x60)</td><td>Ilość sztuk okna standardowego</td></tr>
+                <tr><td>Okno PCV inne</td><td>Ilość sztuk + cena jednostkowa (wpisana ręcznie)</td></tr>
+                <tr><td>Napęd do bramy</td><td>Ilość sztuk napędu CAME</td></tr>
+                <tr><td>Brama Segmentowa</td><td>Checkbox — ryczałt</td></tr>
+                <tr><td>Kotwienie do podłoża</td><td>Checkbox — ryczałt</td></tr>
+            </table>
+
+            <div class="help-divider"></div>
+
+            <h3>Transport</h3>
+            <ul class="help-steps">
+                <li><span class="step-num">1</span>Wybierz <strong>typ transportu</strong> (Blachane / ×4).</li>
+                <li><span class="step-num">2</span>Wybierz <strong>województwo</strong> — cena zostaje dobrana automatycznie z tabeli.</li>
+                <li><span class="step-num">3</span>Opcjonalnie zaznacz <strong>Dostawa regionalna</strong> (ryczałt).</li>
+            </ul>
+            <div class="help-note"><span class="help-tag tag-w">wSum</span> Bramy, okna, drzwi i transport trafiają do sumy dodatków — <strong>rabat ich nie dotyczy</strong>.</div>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">05</span> Podsumowanie i Rabat</div>
+            <p>Panel <strong>Podsumowanie</strong> jest zawsze widoczny po prawej stronie (na dużym ekranie) lub na dole (na telefonie).</p>
+            <table class="help-table">
+                <tr><th>Pole</th><th>Opis</th></tr>
+                <tr><td>Rabat %</td><td>Wpisz procent rabatu (0–100). Rabat dotyczy tylko sumy bazowej (ySum), nie dodatków.</td></tr>
+                <tr><td>Korekta PLN</td><td>Ręczna dopłata lub odliczenie (wartość ujemna = odliczenie)</td></tr>
+                <tr><td>Cena NETTO</td><td>Po rabacie i korekcie, przed zaokrągleniem</td></tr>
+                <tr><td>Cena BRUTTO</td><td>Zaokrąglona do pełnych dziesiątek PLN — to jest kwota ofertowa</td></tr>
+            </table>
+            <div class="help-note"><strong>PDF:</strong> Kliknij przycisk <strong>Pobierz PDF</strong> aby wygenerować i wydrukować ofertę. Otwiera się okno drukowania — wybierz „Zapisz jako PDF".</div>
+        </div>
+
+        <div class="help-card">
+            <div class="help-card-title"><span class="num">06</span> Szybkie wskazówki</div>
+            <ul class="help-steps">
+                <li><span class="step-num">✓</span>Wszystkie pola przeliczają się <strong>na żywo</strong> — nie musisz klikać żadnego przycisku „Oblicz".</li>
+                <li><span class="step-num">✓</span>Jeśli pozycja nie jest potrzebna — zostaw <strong>0</strong> lub <strong>— brak —</strong>, nie będzie doliczona.</li>
+                <li><span class="step-num">✓</span>Ceny pobierane są z serwera przy każdym zalogowaniu — zawsze aktualne.</li>
+                <li><span class="step-num">✓</span>Aplikacja działa też <strong>offline</strong> (dane z ostatniej sesji), ale bez aktualizacji cen.</li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function showTab(tab) {
+    document.querySelectorAll('.help-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.help-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+</script>
+
+</body>
+</html>

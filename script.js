@@ -223,21 +223,65 @@ function fillPriceDisplays(m2) {
 function runCalc() {
     const szCm = getNum('w_szer');
     const glCm = getNum('w_gleb');
-    const sz   = szCm / 100;   // Szerokość w metrach (do obliczeń)
-    const gl   = glCm / 100;   // Głębokość w metrach (do obliczeń)
+    const sz   = szCm / 100;
+    const gl   = glCm / 100;
     const hCm  = getNum('w_wys_cm');
+    const hM   = hCm / 100;
     const m2   = sz * gl;
 
-    setDisp('dim-summary', `Powierzchnia: ${m2.toFixed(1)} m² | Wysokość: ${(hCm/100).toFixed(2)} m`);
+    // ── Kąt dachu → h_max + precyzyjna powierzchnia ścian ──
+    const kat     = parseFloat($('v_kat_dachu')?.value) || 12;
+    const katRad  = kat * Math.PI / 180;
+    const typDachuNow = $('typ_dachu')?.value || '';
+
+    let hMaxCm     = hCm;        // fallback: ściany płaskie
+    let sciennaM2Trig = ((sz * 2) + (gl * 2)) * hM;  // fallback
+
+    if (typDachuNow) {
+        let hMaxM = hM;
+        let walArea = sciennaM2Trig;
+
+        if (typDachuNow === 'tyl' || typDachuNow === 'przod') {
+            // jednospadowy wzdłuż głębokości
+            const deltaH = gl * Math.tan(katRad);
+            hMaxM    = hM + deltaH;
+            walArea  = (sz * hM) + (sz * hMaxM) + (2 * gl * hMaxM);
+        } else if (typDachuNow === 'lewo' || typDachuNow === 'prawo') {
+            // jednospadowy wzdłuż szerokości
+            const deltaH = sz * Math.tan(katRad);
+            hMaxM    = hM + deltaH;
+            walArea  = (gl * hM) + (gl * hMaxM) + (2 * sz * hMaxM);
+        } else if (typDachuNow === 'dwu') {
+            // dwuspadowy — kalennica w połowie szerokości
+            const deltaH = (sz / 2) * Math.tan(katRad);
+            hMaxM    = hM + deltaH;
+            walArea  = (2 * gl * hMaxM) + (2 * sz * hMaxM);
+        } else {
+            // inne typy (np. płaski) — ściany na stałej wysokości
+            hMaxM   = hM;
+            walArea = ((sz * 2) + (gl * 2)) * hM;
+        }
+
+        hMaxCm        = hMaxM * 100;
+        sciennaM2Trig = walArea;
+    }
+
+    // Wyświetl obliczoną h_max i wpisz ją do pola płyty działowej
+    const hMaxRound = Math.round(hMaxCm);
+    const hMaxEl = $('disp_calculated_h_max');
+    if (hMaxEl) hMaxEl.innerText = `${hMaxRound} cm`;
+    if ($('inp_dzialowa_h')) $('inp_dzialowa_h').value = hMaxRound;
+
+    setDisp('dim-summary', `Powierzchnia: ${m2.toFixed(1)} m² | Wysokość: ${hM.toFixed(2)} m | H max: ${hMaxRound} cm`);
     fillPriceDisplays(m2);
 
     // Nadwymiar — auto-check
     const nadCb = $('cb_nad');
     if (nadCb) nadCb.checked = hCm > 235;
 
-    let ySum     = 0;   // ბაზა (სახელ-ფასი პირდაპირ კონსტრუქციაში)
-    let wSum     = 0;   // დანამატები
-    let pdfItems = [];  // PDF-ისთვის ჩამონათვალი
+    let ySum     = 0;
+    let wSum     = 0;
+    let pdfItems = [];
 
     // ── y-check: ბაზის კონსტრუქციის checkbox-ები ──
     document.querySelectorAll('.y-check').forEach(cb => {
@@ -251,15 +295,14 @@ function runCalc() {
         }
     });
 
-    // ── Płyta ścienna — 4 ściany × wysokość ──
+    // ── Płyta ścienna — trygonometryczna powierzchnia ścian ──
     const sciennaKey   = $('sel_plyta_scienna')?.value;
     const sciennaPrice = sciennaKey ? (PRICES[sciennaKey] || 0) : 0;
-    const sciennaM2    = ((sz * 2) + (gl * 2)) * (hCm / 100);
-    const sciennaTotal = sciennaM2 * sciennaPrice;
+    const sciennaTotal = sciennaM2Trig * sciennaPrice;
     setVal('res_plyta_scienna', Math.round(sciennaTotal));
     if (sciennaKey && sciennaPrice > 0) {
         ySum += sciennaTotal;
-        pdfItems.push(`Płyta ścienna (${$('sel_plyta_scienna').options[$('sel_plyta_scienna').selectedIndex]?.text}): ${sciennaM2.toFixed(1)} m²`);
+        pdfItems.push(`Płyta ścienna (${$('sel_plyta_scienna').options[$('sel_plyta_scienna').selectedIndex]?.text}): ${sciennaM2Trig.toFixed(1)} m²`);
     }
 
     // ── Płyta dachowa — (sz+0.70) × (gl+0.70) ──
